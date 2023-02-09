@@ -1,2 +1,2 @@
-# TagaGUI
-GUI application interfacing with Taga for visual exploring
+# Medy Explorer
+GUI application utilizing file Metydata to find exactly what you want with ease!
