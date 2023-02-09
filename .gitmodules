@@ -1,0 +1,3 @@
+[submodule "MeddyLibrary"]
+	path = MeddyLibrary
+	url = https://github.com/ChristianHinko/MeddyLibrary.git
