@@ -1,9 +1,21 @@
 ﻿@inherits LayoutComponentBase
+@using MeddyExplorerApp.Shared.Components;
 
 <MudThemeProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
 
-<main>
-    @Body
-</main>
+<MudLayout>
+    <AppBar OnToggleDrawerClickedEvent="@(() => DrawerOpen = !DrawerOpen)" />
+    <NavMenuDrawer DrawerOpen="@DrawerOpen" />
+    <MudMainContent Class="pt-16 px-16">
+        <MudContainer Class="mt-6">
+            @Body
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>
+
+@code 
+{
+    private bool DrawerOpen = false;
+}
