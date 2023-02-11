@@ -1,0 +1,36 @@
+﻿<MudAppBar Dense="true" Color="@Color.Primary" Elevation="1">
+    <MudText Typo="@Typo.subtitle2">Meddy Explorer</MudText>
+    <MudSpacer />
+    <!-- End buttons -->
+    <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Filled.Minimize" OnClick="@OnMinimizeButtonClick" />
+    @if (!isMaximized)
+    {
+        <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Filled.Maximize" OnClick="@OnMaximizeButtonClick" />
+    }
+    else
+    {
+        <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Filled.Restore" OnClick="@OnRestoreDownButtonClick" />
+    }
+    <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Filled.Close" OnClick="@OnCloseButtonClick" Edge="@Edge.End" /> <!-- use Edge.End to align the icon (instead of the outer button) to the end edge -->
+</MudAppBar>
+
+@code
+{
+    public bool isMaximized { get; set; }
+    private void OnCloseButtonClick()
+    {
+        
+    }
+    private void OnMaximizeButtonClick()
+    {
+        
+    }
+    private void OnRestoreDownButtonClick()
+    {
+        
+    }
+    private void OnMinimizeButtonClick()
+    {
+        
+    }
+}
