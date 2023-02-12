@@ -6,6 +6,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeddyExplorerApp", "MeddyEx
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeddyLibrary", "..\MeddyLibrary\MeddyLibrary\MeddyLibrary\MeddyLibrary.csproj", "{3F5D34AA-BBF9-4625-9EC4-D744D9F49097}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MudBlazorExtensionLibrary", "..\MudBlazorExtension\MudBlazorExtension\MudBlazorExtensionLibrary\MudBlazorExtensionLibrary.csproj", "{ABCDC288-2ADF-44CB-8207-31DC82B27B3D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,12 +24,16 @@ Global
 		{3F5D34AA-BBF9-4625-9EC4-D744D9F49097}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F5D34AA-BBF9-4625-9EC4-D744D9F49097}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3F5D34AA-BBF9-4625-9EC4-D744D9F49097}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABCDC288-2ADF-44CB-8207-31DC82B27B3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABCDC288-2ADF-44CB-8207-31DC82B27B3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABCDC288-2ADF-44CB-8207-31DC82B27B3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABCDC288-2ADF-44CB-8207-31DC82B27B3D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		        SolutionGuid = {61F7FB11-1E47-470C-91E2-47F8143E1572}
 		SolutionGuid = {5791BBF5-76AF-4333-AEC9-D65ACFBDCC8E}
+		        SolutionGuid = {61F7FB11-1E47-470C-91E2-47F8143E1572}
 	EndGlobalSection
 EndGlobal
