@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using MudBlazor.Services;
+using MudBlazorExtensionLibrary.Services;
 
 namespace MeddyExplorerApp;
 
@@ -17,6 +18,7 @@ public static class MauiProgram
 
 		builder.Services.AddMauiBlazorWebView();
         builder.Services.AddMudServices();
+		builder.Services.AddScoped<MBELLayoutService>();
 
 #if DEBUG
         builder.Services.AddBlazorWebViewDeveloperTools();
