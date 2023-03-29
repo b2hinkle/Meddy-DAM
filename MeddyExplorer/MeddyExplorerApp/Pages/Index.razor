@@ -38,12 +38,7 @@
 
     private async void OpenFolderPicker()
     {
-        PermissionStatus status = await CheckAndRequestStorageReadPermission();
-        if (status == PermissionStatus.Granted)
-        {
-            FolderPickerResult pickedFolder = await folderPicker.PickAsync("", CancellationToken.None);
-            Console.WriteLine(pickedFolder?.Folder?.Path);
-            
-        }
+        FolderPickerResult pickedFolder = await folderPicker.PickAsync(".", CancellationToken.None);
+        Console.WriteLine(pickedFolder?.Folder?.Path);
     }
 }
