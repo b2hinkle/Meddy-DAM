@@ -29,7 +29,7 @@
     public bool isMaximized { get; set; }
     private void OnUpButtonClick()
     {
-        meddyExplorerSessionInfo.CurrentDir = Directory.GetParent(meddyExplorerSessionInfo.CurrentDir).FullName;
+        meddyExplorerSessionInfo.CurrentDir = meddyExplorerSessionInfo.CurrentDir.Parent;
     }
     private void OnBackButtonClick()
     {

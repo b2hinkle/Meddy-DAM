@@ -9,18 +9,18 @@ namespace MeddyExplorerApp.Objects
 {
     internal class MeddyExplorerSessionInfo
     {
-        public delegate void StringDelegate(string string1, string string2);
-        public event StringDelegate OnCurrentDirChanged;
+        public delegate void DirectoryParametersDelegate(DirectoryInfo in1, DirectoryInfo in2);
+        public event DirectoryParametersDelegate OnCurrentDirChanged;
 
 
-        public string RootDir { get; set; }
-        private string currentDir;
-        public string CurrentDir
+        public DirectoryInfo RootDir { get; set; }
+        private DirectoryInfo currentDir;
+        public DirectoryInfo CurrentDir
         {
             get { return currentDir; }
             set 
             {
-                string oldCurrentDir = currentDir;
+                DirectoryInfo oldCurrentDir = currentDir;
 
                 currentDir = value;
 
@@ -29,12 +29,6 @@ namespace MeddyExplorerApp.Objects
                     OnCurrentDirChanged.Invoke(oldCurrentDir, currentDir);
                 }
             }
-        }
-
-
-        public MeddyExplorerSessionInfo()
-        {
-            
         }
     }
 }

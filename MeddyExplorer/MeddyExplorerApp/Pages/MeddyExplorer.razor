@@ -41,19 +41,19 @@
     protected void RefreshExplorerView()
     {
         Items.Clear();
-        string[] subfoldersPaths = Directory.GetDirectories(meddyExplorerSessionInfo.CurrentDir);
+        string[] subfoldersPaths = Directory.GetDirectories(meddyExplorerSessionInfo.CurrentDir.FullName);
         foreach (string subfolderPath in subfoldersPaths)
         {
             Items.Add(new DirectoryInfo(subfolderPath));
         }
-        string[] filesPaths = Directory.GetFiles(meddyExplorerSessionInfo.CurrentDir);
+        string[] filesPaths = Directory.GetFiles(meddyExplorerSessionInfo.CurrentDir.FullName);
         foreach (string filePath in filesPaths)
         {
             Items.Add(new FileInfo(filePath));
         }
     }
 
-    protected void OnCurrentDirChanged(string oldCurrentDir, string newCurrentDir)
+    protected void OnCurrentDirChanged(DirectoryInfo oldCurrentDir, DirectoryInfo newCurrentDir)
     {
         RefreshExplorerView();
         StateHasChanged();
@@ -64,7 +64,7 @@
         DirectoryInfo folderInfo = tableRowClickEventArgs.Item as DirectoryInfo;
         if (folderInfo is not null)
         {
-            meddyExplorerSessionInfo.CurrentDir = folderInfo.FullName;
+            meddyExplorerSessionInfo.CurrentDir = folderInfo;
         }
     }
 }

@@ -45,8 +45,9 @@
 
         if (pickedFolder.IsSuccessful)
         {
-            meddyExplorerSessionInfo.RootDir = pickedFolder.Folder.Path;
-            meddyExplorerSessionInfo.CurrentDir = meddyExplorerSessionInfo.RootDir;
+            string pickedFolderPath = pickedFolder.Folder.Path;
+            meddyExplorerSessionInfo.RootDir = new DirectoryInfo(pickedFolderPath);
+            meddyExplorerSessionInfo.CurrentDir = new DirectoryInfo(pickedFolderPath);
             navManager.NavigateTo("/MeddyExplorer");
             return;
         }
