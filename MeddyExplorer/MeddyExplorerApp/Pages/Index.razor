@@ -1,3 +1,19 @@
 ﻿@page "/"
+@using CommunityToolkit.Maui.Storage
+@layout StartupLayout
+@inject IFolderPicker folderPicker
 
-<h1>Hello, world!</h1>
+<MudButton OnClick="OpenFilePicker" Variant="Variant.Filled">Create new Meddy project</MudButton>
+
+@code
+{
+    private async void OpenFilePicker()
+    {
+        FolderPickerResult pickedFolder = await folderPicker.PickAsync("", CancellationToken.None);
+        if (pickedFolder != null)
+        {
+            string PickedPath = pickedFolder.Folder.Path;
+            int e = 3;
+        }
+    }
+}
