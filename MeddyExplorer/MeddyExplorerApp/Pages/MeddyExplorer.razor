@@ -1,8 +1,36 @@
 ﻿@page "/MeddyExplorer"
+@using MeddyExplorerApp.Models;
+@using MeddyExplorerApp.Objects;
+@inject MeddyExplorerSessionInfo meddyExplorerSessionInfo
 
-<h3>MeddyExplorer</h3>
+@* Using MudTable for now but MudList could be nice to use too (it also has drag functionality) *@
+<MudTable Items="@Files" FixedHeader="true" Dense="true" Hover="true" Breakpoint="Breakpoint.Sm" LoadingProgressColor="Color.Info">
+    <HeaderContent>
+        <MudTh>Name</MudTh>
+        <MudTh>Date Modified</MudTh>
+        <MudTh>Type</MudTh>
+        <MudTh>Size</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Name">@context.Name</MudTd>
+        <MudTd DataLabel="Date Modified">@context.DateModified</MudTd>
+        <MudTd DataLabel="Type">@context.Type</MudTd>
+        <MudTd DataLabel="Size">@context.Size</MudTd>
+    </RowTemplate>
+</MudTable>
 
 @code 
 {
+    private List<FileModelFrontEnd> Files = new List<FileModelFrontEnd>();
 
+    protected override void OnInitialized()
+    {
+        string[] filePathsInCurrentDir = Directory.GetFiles(meddyExplorerSessionInfo.CurrentDir);
+        foreach (string filePath in filePathsInCurrentDir)
+        {
+            FileInfo file = new FileInfo(filePath);
+            FileModelFrontEnd fileFrontEndModel = new FileModelFrontEnd(file.Name, file.LastWriteTime.ToString(), file.Extension, file.Length.ToString());
+            Files.Add(fileFrontEndModel);
+        }
+    }
 }
