@@ -10,7 +10,17 @@
         <MudTh>Size</MudTh>
     </HeaderContent>
     <RowTemplate>
-        <MudTd DataLabel="Name">@context.Name</MudTd>
+        <MudTd DataLabel="Name">
+            @if (@context is FileInfo)
+            {
+                <MudIcon Icon="@Icons.Material.Filled.InsertDriveFile" Title="File" />
+            }
+            else
+            {
+                <MudIcon Icon="@Icons.Material.Filled.Folder" Title="Folder" />
+            }
+            @context.Name
+        </MudTd>
         <MudTd DataLabel="Date Modified">@context.LastWriteTime</MudTd>
         <MudTd DataLabel="Type">@GetFileSystemInfoType(context)</MudTd>
         <MudTd DataLabel="Size">@GetFileSystemInfoSize(context)</MudTd>
