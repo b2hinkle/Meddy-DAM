@@ -2,7 +2,6 @@
 @using MeddyExplorerApp.Objects;
 @inject MeddyExplorerSessionInfo meddyExplorerSessionInfo
 
-@* Using MudTable for now but MudList could be nice to use too (it also has drag functionality) *@
 <MudTable Items="@Items" FixedHeader="true" Dense="true" Hover="true" Breakpoint="Breakpoint.Sm" OnRowClick="@ItemRowClickEvent" T="FileSystemInfo" LoadingProgressColor="Color.Info">
     <HeaderContent>
         <MudTh>Name</MudTh>
@@ -28,6 +27,14 @@
         if (fileInfo is not null)
         {
             return fileInfo.Length.ToString();
+        }
+
+        DirectoryInfo directoryInfo = inFileSystemInfo as DirectoryInfo;
+        if (directoryInfo is not null)
+        {
+            // Calculation for all the files in this folder
+            string sizeInBytes = "";
+            return sizeInBytes;
         }
         return "";
     }
