@@ -4,7 +4,7 @@
 @inject MeddyExplorerSessionInfo meddyExplorerSessionInfo
 
 @* Using MudTable for now but MudList could be nice to use too (it also has drag functionality) *@
-<MudTable Items="@Files" FixedHeader="true" Dense="true" Hover="true" Breakpoint="Breakpoint.Sm" LoadingProgressColor="Color.Info">
+<MudTable Items="@Items" FixedHeader="true" Dense="true" Hover="true" Breakpoint="Breakpoint.Sm" LoadingProgressColor="Color.Info">
     <HeaderContent>
         <MudTh>Name</MudTh>
         <MudTh>Date Modified</MudTh>
@@ -13,15 +13,25 @@
     </HeaderContent>
     <RowTemplate>
         <MudTd DataLabel="Name">@context.Name</MudTd>
-        <MudTd DataLabel="Date Modified">@context.DateModified</MudTd>
-        <MudTd DataLabel="Type">@context.Type</MudTd>
-        <MudTd DataLabel="Size">@context.Size</MudTd>
+        <MudTd DataLabel="Date Modified">@context.LastWriteTime</MudTd>
+        <MudTd DataLabel="Type">@context.Extension</MudTd>
+        <MudTd DataLabel="Size">@GetFileSystemInfoSize(context)</MudTd>
     </RowTemplate>
 </MudTable>
 
 @code 
 {
-    private List<FileModelFrontEnd> Files = new List<FileModelFrontEnd>();
+    private List<FileSystemInfo> Items = new List<FileSystemInfo>();
+
+    protected string GetFileSystemInfoSize(FileSystemInfo inFileSystemInfo)
+    {
+        FileInfo fileInfo = inFileSystemInfo as FileInfo;
+        if (fileInfo is not null)
+        {
+            return fileInfo.Length.ToString();
+        }
+        return "";
+    }
 
     protected override void OnInitialized()
     {
@@ -31,14 +41,16 @@
 
     protected void RefreshExplorerView()
     {
-        Files.Clear();
-
-        string[] filePathsInCurrentDir = Directory.GetFiles(meddyExplorerSessionInfo.CurrentDir);
-        foreach (string filePath in filePathsInCurrentDir)
+        Items.Clear();
+        string[] subfoldersPaths = Directory.GetDirectories(meddyExplorerSessionInfo.CurrentDir);
+        foreach (string subfolderPath in subfoldersPaths)
         {
-            FileInfo file = new FileInfo(filePath);
-            FileModelFrontEnd fileFrontEndModel = new FileModelFrontEnd(file.Name, file.LastWriteTime.ToString(), file.Extension, file.Length.ToString());
-            Files.Add(fileFrontEndModel);
+            Items.Add(new DirectoryInfo(subfolderPath));
+        }
+        string[] filesPaths = Directory.GetFiles(meddyExplorerSessionInfo.CurrentDir);
+        foreach (string filePath in filesPaths)
+        {
+            Items.Add(new FileInfo(filePath));
         }
     }
 
