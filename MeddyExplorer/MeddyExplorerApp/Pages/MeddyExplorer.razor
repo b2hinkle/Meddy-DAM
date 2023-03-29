@@ -25,6 +25,14 @@
 
     protected override void OnInitialized()
     {
+        RefreshExplorerView();
+        meddyExplorerSessionInfo.OnCurrentDirChanged += OnCurrentDirChanged;
+    }
+
+    protected void RefreshExplorerView()
+    {
+        Files.Clear();
+
         string[] filePathsInCurrentDir = Directory.GetFiles(meddyExplorerSessionInfo.CurrentDir);
         foreach (string filePath in filePathsInCurrentDir)
         {
@@ -32,5 +40,11 @@
             FileModelFrontEnd fileFrontEndModel = new FileModelFrontEnd(file.Name, file.LastWriteTime.ToString(), file.Extension, file.Length.ToString());
             Files.Add(fileFrontEndModel);
         }
+    }
+
+    protected void OnCurrentDirChanged(string oldCurrentDir, string newCurrentDir)
+    {
+        RefreshExplorerView();
+        StateHasChanged();
     }
 }
