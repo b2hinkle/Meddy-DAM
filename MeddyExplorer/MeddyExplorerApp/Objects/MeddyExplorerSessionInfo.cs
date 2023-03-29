@@ -8,7 +8,8 @@ namespace MeddyExplorerApp.Objects
 {
     internal class MeddyExplorerSessionInfo
     {
-        public string RootDirectory { get; set; }
+        public string RootDir { get; set; }
+        public string CurrentDir { get; set; }
 
         public MeddyExplorerSessionInfo()
         {

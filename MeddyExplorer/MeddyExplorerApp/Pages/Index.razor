@@ -43,17 +43,12 @@
     {
         FolderPickerResult pickedFolder = await folderPicker.PickAsync(".", CancellationToken.None);
 
-        if (pickedFolder is not null)
+        if (pickedFolder.IsSuccessful)
         {
-            if (pickedFolder.Folder is not null)
-            {
-                if (pickedFolder.Folder.Path is not null)
-                {
-                    meddyExplorerSessionInfo.RootDirectory = pickedFolder?.Folder?.Path;
-                    navManager.NavigateTo("/MeddyExplorer");
-                    return;
-                }
-            }
+            meddyExplorerSessionInfo.RootDir = pickedFolder.Folder.Path;
+            meddyExplorerSessionInfo.CurrentDir = meddyExplorerSessionInfo.RootDir;
+            navManager.NavigateTo("/MeddyExplorer");
+            return;
         }
 
         Console.WriteLine("Could not get a folder path from selection");
