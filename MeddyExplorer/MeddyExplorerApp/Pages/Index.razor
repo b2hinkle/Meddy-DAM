@@ -1,7 +1,9 @@
 ﻿@page "/"
 @using CommunityToolkit.Maui.Storage
+@using MeddyExplorerApp.Objects;
 @layout StartupLayout
 @inject IFolderPicker folderPicker
+@inject MeddyExplorerSessionInfo meddyExplorerSessionInfo
 
 <MudButton OnClick="OpenFolderPicker" Variant="Variant.Filled">Create new Meddy project</MudButton>
 
@@ -39,6 +41,7 @@
     private async void OpenFolderPicker()
     {
         FolderPickerResult pickedFolder = await folderPicker.PickAsync(".", CancellationToken.None);
-        Console.WriteLine(pickedFolder?.Folder?.Path);
+
+        meddyExplorerSessionInfo.RootDirectory = pickedFolder?.Folder?.Path;
     }
 }
