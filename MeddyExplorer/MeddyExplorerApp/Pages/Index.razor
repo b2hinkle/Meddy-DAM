@@ -3,17 +3,47 @@
 @layout StartupLayout
 @inject IFolderPicker folderPicker
 
-<MudButton OnClick="OpenFilePicker" Variant="Variant.Filled">Create new Meddy project</MudButton>
+<MudButton OnClick="OpenFolderPicker" Variant="Variant.Filled">Create new Meddy project</MudButton>
 
 @code
 {
-    private async void OpenFilePicker()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        FolderPickerResult pickedFolder = await folderPicker.PickAsync("", CancellationToken.None);
-        if (pickedFolder != null)
+        await CheckAndRequestStorageReadPermission();
+    }
+
+    public async Task<PermissionStatus> CheckAndRequestStorageReadPermission()
+    {
+        PermissionStatus status = await Permissions.CheckStatusAsync<Permissions.StorageRead>();
+
+        if (status == PermissionStatus.Granted)
+            return status;
+
+        if (status == PermissionStatus.Denied && DeviceInfo.Platform == DevicePlatform.iOS)
         {
-            string PickedPath = pickedFolder.Folder.Path;
-            int e = 3;
+            // Prompt the user to turn on in settings
+            // On iOS once a permission has been denied it may not be requested again from the application
+            return status;
+        }
+
+        if (Permissions.ShouldShowRationale<Permissions.StorageRead>())
+        {
+            // Prompt the user with additional information as to why the permission is needed
+        }
+
+        status = await Permissions.RequestAsync<Permissions.StorageRead>();
+
+        return status;
+    }
+
+    private async void OpenFolderPicker()
+    {
+        PermissionStatus status = await CheckAndRequestStorageReadPermission();
+        if (status == PermissionStatus.Granted)
+        {
+            FolderPickerResult pickedFolder = await folderPicker.PickAsync("", CancellationToken.None);
+            Console.WriteLine(pickedFolder?.Folder?.Path);
+            
         }
     }
 }

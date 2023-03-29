@@ -4,4 +4,11 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+  <!--
+  Default Android version for MAUI apps is 13.0 and requesting permission doesn't work as described here
+  https://stackoverflow.com/questions/75326380/failing-to-request-permissions-in-net-maui (there is an github issue as well listed here)
+  It seems like this is a current problem with MAUI so lets just use a different version that works for testing
+  -->
+    <uses-sdk android:minSdkVersion="21" android:targetSdkVersion="31" />
 </manifest>
