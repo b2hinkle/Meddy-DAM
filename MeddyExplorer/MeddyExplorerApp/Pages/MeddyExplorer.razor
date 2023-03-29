@@ -13,12 +13,12 @@
     <RowTemplate>
         <MudTd DataLabel="Name">@context.Name</MudTd>
         <MudTd DataLabel="Date Modified">@context.LastWriteTime</MudTd>
-        <MudTd DataLabel="Type">@context.Extension</MudTd>
+        <MudTd DataLabel="Type">@GetFileSystemInfoType(context)</MudTd>
         <MudTd DataLabel="Size">@GetFileSystemInfoSize(context)</MudTd>
     </RowTemplate>
 </MudTable>
 
-@code 
+@code
 {
     private List<FileSystemInfo> Items = new List<FileSystemInfo>();
 
@@ -30,6 +30,15 @@
             return fileInfo.Length.ToString();
         }
         return "";
+    }
+    protected string GetFileSystemInfoType(FileSystemInfo inFileSystemInfo)
+    {
+        FileInfo fileInfo = inFileSystemInfo as FileInfo;
+        if (fileInfo is not null)
+        {
+            return fileInfo.Extension;
+        }
+        return "Folder";
     }
 
     protected override void OnInitialized()
