@@ -1,5 +1,7 @@
 ﻿<MudAppBar Dense="true" Color="@Color.Primary" Elevation="1">
     <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@(() => OnToggleDrawerClickedEvent.InvokeAsync())" />
+    <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Filled.KeyboardArrowLeft" OnClick="@OnBackButtonClick" />
+    <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Filled.KeyboardArrowRight" OnClick="@OnForwardButtonClick" />
     <MudText Typo="@Typo.subtitle2">Meddy Explorer</MudText>
     <MudSpacer />
     <!-- End buttons -->
@@ -21,6 +23,14 @@
     public EventCallback OnToggleDrawerClickedEvent { get; set; }
 
     public bool isMaximized { get; set; }
+    private void OnBackButtonClick()
+    {
+        
+    }
+    private void OnForwardButtonClick()
+    {
+        
+    }
     private void OnCloseButtonClick()
     {
         
