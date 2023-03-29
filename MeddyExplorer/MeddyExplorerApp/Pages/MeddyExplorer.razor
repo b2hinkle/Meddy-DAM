@@ -4,7 +4,7 @@
 @inject MeddyExplorerSessionInfo meddyExplorerSessionInfo
 
 @* Using MudTable for now but MudList could be nice to use too (it also has drag functionality) *@
-<MudTable Items="@Items" FixedHeader="true" Dense="true" Hover="true" Breakpoint="Breakpoint.Sm" LoadingProgressColor="Color.Info">
+<MudTable Items="@Items" FixedHeader="true" Dense="true" Hover="true" Breakpoint="Breakpoint.Sm" OnRowClick="@ItemRowClickEvent" T="FileSystemInfo" LoadingProgressColor="Color.Info">
     <HeaderContent>
         <MudTh>Name</MudTh>
         <MudTh>Date Modified</MudTh>
@@ -58,5 +58,14 @@
     {
         RefreshExplorerView();
         StateHasChanged();
+    }
+
+    private void ItemRowClickEvent(TableRowClickEventArgs<FileSystemInfo> tableRowClickEventArgs)
+    {
+        DirectoryInfo folderInfo = tableRowClickEventArgs.Item as DirectoryInfo;
+        if (folderInfo is not null)
+        {
+            meddyExplorerSessionInfo.CurrentDir = folderInfo.FullName;
+        }
     }
 }
