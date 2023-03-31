@@ -1,11 +1,13 @@
 ﻿@using MeddyExplorerApp.Objects
 @inject MeddyExplorerSessionInfo meddyExplorerSessionInfo
 
-<MudTextField T="string" Text="@meddyExplorerSessionInfo.CurrentDir.FullName" Variant="@Variant.Outlined" Margin="@Margin.Dense" ValueChanged="@OnValueChanged" />
+<MudTextField @ref="@TextField" T="string" Text="@meddyExplorerSessionInfo.CurrentDir.FullName" Variant="@Variant.Outlined" Margin="@Margin.Dense" ValueChanged="@OnValueChanged" />
 
 @code
 {
-    protected void OnValueChanged(string inNewValue)
+    MudTextField<string> TextField { get; set; }
+
+    protected async Task OnValueChanged(string inNewValue)
     {
         // Change current directory
         if (Directory.Exists(inNewValue))
@@ -13,6 +15,10 @@
             meddyExplorerSessionInfo.CurrentDir = new DirectoryInfo(inNewValue);
         }
 
-        // TODO: Reset the value and unfocus the text field
+        if (TextField is not null)
+        {
+            // TODO: Reset the value also?
+            await TextField.BlurAsync();
+        }
     }
 }
