@@ -1,19 +1,16 @@
 ﻿@inherits LayoutComponentBase
+@layout MainLayout
 @using MeddyExplorerApp.Shared.Components
-@using MudBlazorExtensionLibrary.Shared.Layouts
-@layout MBELMainLayout
 
 <MudLayout>
     <AppBar OnToggleDrawerClickedEvent="@(() => DrawerOpen = !DrawerOpen)" />
     <NavMenuDrawer DrawerOpen="@DrawerOpen" />
-    <MudMainContent Class="pt-16 px-16">
-        <MudContainer Class="mt-6">
-            @Body
-        </MudContainer>
+    <MudMainContent>
+        @Body
     </MudMainContent>
 </MudLayout>
 
-@code 
+@code
 {
     private bool DrawerOpen = false;
 }
