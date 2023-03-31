@@ -1,11 +1,23 @@
-﻿<MudDrawer @bind-Open="@DrawerOpen" ClipMode="DrawerClipMode.Never" Elevation="1" Variant="@DrawerVariant.Responsive">
+﻿<MudDrawer @bind-Open="@DrawerOpen" ClipMode="@DrawerClipMode.Never" Elevation="1" Variant="@DrawerVariant.Responsive">
     <MudDrawerHeader>
-        <MudText Typo="Typo.h6">Meddy Explorer</MudText>
+        <MudText Typo="@Typo.h6">Meddy Explorer</MudText>
     </MudDrawerHeader>
     <MudNavMenu>
-        <MudNavLink Match="NavLinkMatch.All">Store</MudNavLink>
-        <MudNavLink Match="NavLinkMatch.All">Library</MudNavLink>
-        <MudNavLink Match="NavLinkMatch.All">Community</MudNavLink>
+        <MudNavLink Match="@NavLinkMatch.All">
+            <MudText Typo="@Typo.body1">
+                Store
+            </MudText>
+        </MudNavLink>
+        <MudNavLink Match="@NavLinkMatch.All">
+            <MudText Typo="@Typo.body1">
+                Library
+            </MudText>
+        </MudNavLink>
+        <MudNavLink Match="@NavLinkMatch.All">
+            <MudText Typo="@Typo.body1">
+                Community
+            </MudText>
+        </MudNavLink>
     </MudNavMenu>
 </MudDrawer>
 

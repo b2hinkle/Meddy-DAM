@@ -4,9 +4,13 @@
 @layout StartupLayout
 @inject IFolderPicker folderPicker
 @inject MeddyExplorerSessionInfo meddyExplorerSessionInfo
-@inject NavigationManager navManager
+@inject NavigationManager navigationManager
 
-<MudButton OnClick="OpenFolderPicker" Variant="Variant.Filled">Create new Meddy project</MudButton>
+<MudButton OnClick="@OpenFolderPicker" Variant="@Variant.Filled">
+    <MudText Typo="@Typo.body1">
+        Create New Meddy Project
+    </MudText>
+</MudButton>
 
 @code
 {
@@ -48,7 +52,7 @@
             string pickedFolderPath = pickedFolder.Folder.Path;
             meddyExplorerSessionInfo.RootDir = new DirectoryInfo(pickedFolderPath);
             meddyExplorerSessionInfo.CurrentDir = new DirectoryInfo(pickedFolderPath);
-            navManager.NavigateTo("/MeddyExplorer");
+            navigationManager.NavigateTo("/MeddyExplorer");
             return;
         }
 

@@ -2,11 +2,13 @@
 @inject MeddyExplorerSessionInfo meddyExplorerSessionInfo
 
 <MudAppBar Dense="true" Color="@Color.Primary" Elevation="1">
-    <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@(() => OnToggleDrawerClickedEvent.InvokeAsync())" />
+    <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="@Color.Inherit" Edge="@Edge.Start" OnClick="@(() => OnToggleDrawerClickedEvent.InvokeAsync())" />
     <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Filled.KeyboardArrowLeft" OnClick="@OnBackButtonClick" />
     <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Filled.KeyboardArrowRight" OnClick="@OnForwardButtonClick" />
     <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Filled.ArrowUpward" OnClick="@OnUpButtonClick" />
-    <MudText Typo="@Typo.subtitle2">Meddy Explorer</MudText>
+    <MudText Typo="@Typo.subtitle2">
+        Meddy Explorer
+    </MudText>
     <MudSpacer />
     <!-- End buttons -->
     <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Filled.Minimize" OnClick="@OnMinimizeButtonClick" />

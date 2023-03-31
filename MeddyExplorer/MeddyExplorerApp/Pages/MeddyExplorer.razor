@@ -2,12 +2,28 @@
 @using MeddyExplorerApp.Objects
 @inject MeddyExplorerSessionInfo meddyExplorerSessionInfo
 
-<MudTable Items="@Items" FixedHeader="true" Dense="true" Hover="true" Breakpoint="Breakpoint.Sm" OnRowClick="@ItemRowClickEvent" T="FileSystemInfo" LoadingProgressColor="Color.Info">
+<MudTable Items="@Items" FixedHeader="true" Dense="true" Hover="true" Breakpoint="@Breakpoint.Sm" OnRowClick="@ItemRowClickEvent" T="FileSystemInfo" LoadingProgressColor="@Color.Info">
     <HeaderContent>
-        <MudTh>Name</MudTh>
-        <MudTh>Date Modified</MudTh>
-        <MudTh>Type</MudTh>
-        <MudTh>Size</MudTh>
+        <MudTh>
+            <MudText Typo="@Typo.body1">
+                Name
+            </MudText>
+        </MudTh>
+        <MudTh>
+            <MudText Typo="@Typo.body1">
+                Date Modified
+            </MudText>
+        </MudTh>
+        <MudTh>
+            <MudText Typo="@Typo.body1">
+                Type
+            </MudText>
+        </MudTh>
+        <MudTh>
+            <MudText Typo="@Typo.body1">
+                Size
+            </MudText>
+        </MudTh>
     </HeaderContent>
     <RowTemplate>
         <MudTd DataLabel="Name">
@@ -19,11 +35,25 @@
             {
                 <MudIcon Icon="@Icons.Material.Filled.Folder" Title="Folder" />
             }
-            @context.Name
+            <MudText Typo="@Typo.body1">
+                @context.Name
+            </MudText>
         </MudTd>
-        <MudTd DataLabel="Date Modified">@context.LastWriteTime</MudTd>
-        <MudTd DataLabel="Type">@MELFileSystemFunctionLibrary.GetFileSystemInfoTypeString(context)</MudTd>
-        <MudTd DataLabel="Size">@MELFileSystemFunctionLibrary.GetFileSystemInfoSizeString(context)</MudTd>
+        <MudTd DataLabel="Date Modified">
+            <MudText Typo="@Typo.body1">
+                @context.LastWriteTime
+            </MudText>
+        </MudTd>
+        <MudTd DataLabel="Type">
+            <MudText Typo="@Typo.body1">
+                @MELFileSystemFunctionLibrary.GetFileSystemInfoTypeString(context)
+            </MudText>
+        </MudTd>
+        <MudTd DataLabel="Size">
+            <MudText Typo="@Typo.body1">
+                @MELFileSystemFunctionLibrary.GetFileSystemInfoSizeString(context)
+            </MudText>
+        </MudTd>
     </RowTemplate>
 </MudTable>
 
