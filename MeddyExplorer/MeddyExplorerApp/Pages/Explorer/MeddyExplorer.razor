@@ -64,6 +64,8 @@
 
     protected override void OnInitialized()
     {
+        base.OnInitialized();
+
         RefreshExplorerView();
         meddyExplorerSessionInfo.OnCurrentDirChanged += OnCurrentDirChanged;
     }
