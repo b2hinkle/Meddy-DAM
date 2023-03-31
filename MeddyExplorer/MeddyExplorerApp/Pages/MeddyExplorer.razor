@@ -1,5 +1,5 @@
 ﻿@page "/MeddyExplorer"
-@using MeddyExplorerApp.Objects;
+@using MeddyExplorerApp.Objects
 @inject MeddyExplorerSessionInfo meddyExplorerSessionInfo
 
 <MudTable Items="@Items" FixedHeader="true" Dense="true" Hover="true" Breakpoint="Breakpoint.Sm" OnRowClick="@ItemRowClickEvent" T="FileSystemInfo" LoadingProgressColor="Color.Info">
@@ -11,7 +11,7 @@
     </HeaderContent>
     <RowTemplate>
         <MudTd DataLabel="Name">
-            @if (@context is FileInfo)
+            @if (context is FileInfo)
             {
                 <MudIcon Icon="@Icons.Material.Filled.InsertDriveFile" Title="File" />
             }
@@ -22,41 +22,14 @@
             @context.Name
         </MudTd>
         <MudTd DataLabel="Date Modified">@context.LastWriteTime</MudTd>
-        <MudTd DataLabel="Type">@GetFileSystemInfoType(context)</MudTd>
-        <MudTd DataLabel="Size">@GetFileSystemInfoSize(context)</MudTd>
+        <MudTd DataLabel="Type">@MELFileSystemFunctionLibrary.GetFileSystemInfoTypeString(context)</MudTd>
+        <MudTd DataLabel="Size">@MELFileSystemFunctionLibrary.GetFileSystemInfoSizeString(context)</MudTd>
     </RowTemplate>
 </MudTable>
 
 @code
 {
     private List<FileSystemInfo> Items = new List<FileSystemInfo>();
-
-    protected string GetFileSystemInfoSize(FileSystemInfo inFileSystemInfo)
-    {
-        FileInfo fileInfo = inFileSystemInfo as FileInfo;
-        if (fileInfo is not null)
-        {
-            return fileInfo.Length.ToString();
-        }
-
-        DirectoryInfo directoryInfo = inFileSystemInfo as DirectoryInfo;
-        if (directoryInfo is not null)
-        {
-            // Calculation for all the files in this folder
-            string sizeInBytes = "";
-            return sizeInBytes;
-        }
-        return "";
-    }
-    protected string GetFileSystemInfoType(FileSystemInfo inFileSystemInfo)
-    {
-        FileInfo fileInfo = inFileSystemInfo as FileInfo;
-        if (fileInfo is not null)
-        {
-            return fileInfo.Extension;
-        }
-        return "Folder";
-    }
 
     protected override void OnInitialized()
     {
