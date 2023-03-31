@@ -2,6 +2,7 @@
 @using MeddyExplorerApp.Objects
 @inject MeddyExplorerSessionInfo meddyExplorerSessionInfo
 
+<MEACurrentDirTextField />
 <MudTable Items="@Items" FixedHeader="true" Dense="true" Hover="true" Breakpoint="@Breakpoint.Sm" OnRowClick="@ItemRowClickEvent" T="FileSystemInfo" LoadingProgressColor="@Color.Info">
     <HeaderContent>
         <MudTh>

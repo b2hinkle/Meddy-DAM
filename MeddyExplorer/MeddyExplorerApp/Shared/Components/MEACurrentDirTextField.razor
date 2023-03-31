@@ -1,0 +1,18 @@
+﻿@using MeddyExplorerApp.Objects
+@inject MeddyExplorerSessionInfo meddyExplorerSessionInfo
+
+<MudTextField T="string" Text="@meddyExplorerSessionInfo.CurrentDir.FullName" Variant="@Variant.Outlined" Margin="@Margin.Dense" ValueChanged="@OnValueChanged" />
+
+@code
+{
+    protected void OnValueChanged(string inNewValue)
+    {
+        // Change current directory
+        if (Directory.Exists(inNewValue))
+        {
+            meddyExplorerSessionInfo.CurrentDir = new DirectoryInfo(inNewValue);
+        }
+
+        // TODO: Reset the value and unfocus the text field
+    }
+}
