@@ -12,8 +12,24 @@
     </MudText>
 </MudButton>
 
+<MudTable Items="@Items" FixedHeader="true" Dense="true" Hover="true" Breakpoint="Breakpoint.Sm" OnRowClick="@ItemRowClickEvent" T="string" LoadingProgressColor="Color.Info">
+    <HeaderContent>
+        <MudTh>Project</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Project">@context</MudTd>
+    </RowTemplate>
+</MudTable>
+
 @code
 {
+    private List<string> Items = new List<string>();
+
+    protected override void OnInitialized()
+    {
+        Items = App.persistentData.RecentMeddyProjects;
+    }
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await CheckAndRequestStorageReadPermission();
@@ -46,16 +62,22 @@
     private async void OpenFolderPicker()
     {
         FolderPickerResult pickedFolder = await folderPicker.PickAsync(".", CancellationToken.None);
-
         if (pickedFolder.IsSuccessful)
         {
-            string pickedFolderPath = pickedFolder.Folder.Path;
-            meddyExplorerSessionInfo.RootDir = new DirectoryInfo(pickedFolderPath);
-            meddyExplorerSessionInfo.CurrentDir = new DirectoryInfo(pickedFolderPath);
-            navigationManager.NavigateTo("/meddy-explorer");
-            return;
+            OpenMeddyProject(pickedFolder.Folder.Path);
         }
+    }
+
+    private void OpenMeddyProject(string inMeddyProjectFolderPath)
+    {
+        meddyExplorerSessionInfo.RootDir = new DirectoryInfo(inMeddyProjectFolderPath);
+        meddyExplorerSessionInfo.CurrentDir = new DirectoryInfo(inMeddyProjectFolderPath);
+        navigationManager.NavigateTo("/meddy-explorer");
 
         Console.WriteLine("Could not get a folder path from selection");
+    }
+    private void ItemRowClickEvent(TableRowClickEventArgs<string> tableRowClickEventArgs)
+    {
+        OpenMeddyProject(tableRowClickEventArgs.Item);
     }
 }
