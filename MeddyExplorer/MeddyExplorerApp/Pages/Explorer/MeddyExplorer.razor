@@ -3,7 +3,7 @@
 @inject MeddyExplorerSessionInfo meddyExplorerSessionInfo
 
 <MEACurrentDirTextField />
-<MudTable Items="@Items" FixedHeader="true" Dense="true" Hover="true" Breakpoint="@Breakpoint.Sm" OnRowClick="@ItemRowClickEvent" T="FileSystemInfo" LoadingProgressColor="@Color.Info">
+<MudTable T="FileSystemInfo" Items="@Items" Height="100%" FixedHeader="true" Dense="true" Hover="true" OnRowClick="@ItemRowClickEvent">
     <HeaderContent>
         <MudTh>
             <MudText Typo="@Typo.body1">
@@ -28,21 +28,14 @@
     </HeaderContent>
     <RowTemplate>
         <MudTd DataLabel="Name">
-            @if (context is FileInfo)
-            {
-                <MudIcon Icon="@Icons.Material.Filled.InsertDriveFile" Title="File" />
-            }
-            else
-            {
-                <MudIcon Icon="@Icons.Material.Filled.Folder" Title="Folder" />
-            }
+            <MudIcon Icon="@GetFileSystemInfoIcon(context)" />
             <MudText Typo="@Typo.body1">
                 @context.Name
             </MudText>
         </MudTd>
         <MudTd DataLabel="Date Modified">
             <MudText Typo="@Typo.body1">
-                @context.LastWriteTime
+                @context.LastWriteTime.ToString("yyyy-MM-dd hh-mm-ss")
             </MudText>
         </MudTd>
         <MudTd DataLabel="Type">
@@ -73,30 +66,47 @@
     protected void RefreshExplorerView()
     {
         Items.Clear();
-        string[] subfoldersPaths = Directory.GetDirectories(meddyExplorerSessionInfo.CurrentDir.FullName);
-        foreach (string subfolderPath in subfoldersPaths)
+
+        string[] subfolderPaths = Directory.GetDirectories(meddyExplorerSessionInfo.CurrentDir.FullName);
+        foreach (string subfolderPath in subfolderPaths)
         {
             Items.Add(new DirectoryInfo(subfolderPath));
         }
-        string[] filesPaths = Directory.GetFiles(meddyExplorerSessionInfo.CurrentDir.FullName);
-        foreach (string filePath in filesPaths)
+
+        string[] filePaths = Directory.GetFiles(meddyExplorerSessionInfo.CurrentDir.FullName);
+        foreach (string filePath in filePaths)
         {
             Items.Add(new FileInfo(filePath));
         }
     }
 
-    protected void OnCurrentDirChanged(DirectoryInfo oldCurrentDir, DirectoryInfo newCurrentDir)
+    protected void OnCurrentDirChanged(DirectoryInfo inOldCurrentDir, DirectoryInfo inNewCurrentDir)
     {
         RefreshExplorerView();
         StateHasChanged();
     }
 
-    private void ItemRowClickEvent(TableRowClickEventArgs<FileSystemInfo> tableRowClickEventArgs)
+    protected void ItemRowClickEvent(TableRowClickEventArgs<FileSystemInfo> tableRowClickEventArgs)
     {
         DirectoryInfo folderInfo = tableRowClickEventArgs.Item as DirectoryInfo;
         if (folderInfo is not null)
         {
             meddyExplorerSessionInfo.CurrentDir = folderInfo;
         }
+    }
+
+    public static string GetFileSystemInfoIcon(FileSystemInfo inFileSystemInfo)
+    {
+        if (inFileSystemInfo is FileInfo)
+        {
+            return Icons.Material.Filled.InsertDriveFile;
+        }
+
+        if (inFileSystemInfo is DirectoryInfo)
+        {
+            return Icons.Material.Filled.Folder;
+        }
+
+        return string.Empty;
     }
 }

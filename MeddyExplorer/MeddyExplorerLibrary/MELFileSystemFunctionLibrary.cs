@@ -17,11 +17,11 @@
             if (directoryInfo is not null)
             {
                 // Calculation for size of this directory
-                string sizeInBytes = "";
+                string sizeInBytes = string.Empty;
                 return sizeInBytes;
             }
 
-            return "";
+            return string.Empty;
         }
 
         public static string GetFileSystemInfoTypeString(FileSystemInfo inFileSystemInfo)
@@ -37,7 +37,7 @@
                 return "Folder";
             }
 
-            return "";
+            return string.Empty;
         }
     }
 }

@@ -19,12 +19,14 @@
         await CheckAndRequestStorageReadPermission();
     }
 
-    public async Task<PermissionStatus> CheckAndRequestStorageReadPermission()
+    public static async Task<PermissionStatus> CheckAndRequestStorageReadPermission()
     {
         PermissionStatus status = await Permissions.CheckStatusAsync<Permissions.StorageRead>();
 
         if (status == PermissionStatus.Granted)
+        {
             return status;
+        }
 
         if (status == PermissionStatus.Denied && DeviceInfo.Platform == DevicePlatform.iOS)
         {
@@ -43,9 +45,9 @@
         return status;
     }
 
-    private async void OpenFolderPicker()
+    protected async Task OpenFolderPicker()
     {
-        FolderPickerResult pickedFolder = await folderPicker.PickAsync(".", CancellationToken.None);
+        FolderPickerResult pickedFolder = await folderPicker.PickAsync("./", CancellationToken.None);
 
         if (pickedFolder.IsSuccessful)
         {
