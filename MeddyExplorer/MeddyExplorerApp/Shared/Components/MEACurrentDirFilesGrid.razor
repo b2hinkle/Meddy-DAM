@@ -1,0 +1,46 @@
+﻿@using MeddyExplorerApp.Objects
+@inject MeddyExplorerSessionInfo meddyExplorerSessionInfo
+
+<MudGrid Justify="@Justify.FlexStart">
+    @foreach (FileSystemInfo file in Files)
+    {
+        <MudItem>
+            <div class="d-flex flex-column align-center" style="width: 100px; height: 100px;">
+                <MudIcon Icon="@MELFileSystemFunctionLibrary.GetFileSystemInfoIcon(file)" Size="@Size.Large" />
+                <MudText Style="overflow-wrap: anywhere; overflow: hidden;" Typo="@Typo.body1" Align="@Align.Center">
+                    @MELFileSystemFunctionLibrary.GetFileSystemInfoNameString(file)
+                </MudText>
+            </div>
+        </MudItem>
+    }
+</MudGrid>
+
+@code
+{
+    protected List<FileSystemInfo> Files = new();
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        MELFileSystemFunctionLibrary.PopulateFileSystemInfoList(Files, meddyExplorerSessionInfo.CurrentDir.FullName);
+        meddyExplorerSessionInfo.OnCurrentDirChanged += OnCurrentDirChanged;
+    }
+
+    protected void OnCurrentDirChanged(DirectoryInfo inOldCurrentDir, DirectoryInfo inNewCurrentDir)
+    {
+        Files.Clear();
+        MELFileSystemFunctionLibrary.PopulateFileSystemInfoList(Files, meddyExplorerSessionInfo.CurrentDir.FullName);
+
+        StateHasChanged();
+    }
+
+    protected void ItemRowClickEvent(TableRowClickEventArgs<FileSystemInfo> tableRowClickEventArgs)
+    {
+        DirectoryInfo folder = tableRowClickEventArgs.Item as DirectoryInfo;
+        if (folder is not null)
+        {
+            meddyExplorerSessionInfo.CurrentDir = folder;
+        }
+    }
+}
