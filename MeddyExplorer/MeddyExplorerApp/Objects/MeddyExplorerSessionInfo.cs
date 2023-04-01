@@ -12,12 +12,12 @@
             get { return rootDir; }
             set
             {
-                DirectoryInfo oldRootDir = rootDir;
+                DirectoryInfo oldValue = rootDir;
                 rootDir = value;
 
                 if (OnRootDirChanged is not null)
                 {
-                    OnRootDirChanged.Invoke(oldRootDir, rootDir);
+                    OnRootDirChanged.Invoke(oldValue, rootDir);
                 }
             }
         }
@@ -27,13 +27,12 @@
             get { return currentDir; }
             set
             {
-                DirectoryInfo oldCurrentDir = currentDir;
-
+                DirectoryInfo oldValue = currentDir;
                 currentDir = value;
 
                 if (OnCurrentDirChanged is not null)
                 {
-                    OnCurrentDirChanged.Invoke(oldCurrentDir, currentDir);
+                    OnCurrentDirChanged.Invoke(oldValue, currentDir);
                 }
             }
         }
