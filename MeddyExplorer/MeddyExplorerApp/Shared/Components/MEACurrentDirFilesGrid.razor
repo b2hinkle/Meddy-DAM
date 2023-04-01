@@ -5,7 +5,7 @@
     @foreach (FileSystemInfo file in Files)
     {
         <MudItem>
-            <MudButton Class="mea-hover-transition-duration-none" OnClick="@((inMouseEventArgs) => OnOpenFile(inMouseEventArgs, file))">
+            <MudButton Class="mea-hover-transition-duration-none" OnClick="@((inMouseEventArgs) => OnClickItem(inMouseEventArgs, file))">
                 <div class="d-flex flex-column align-center" style="width: 100px; max-height: 100px;">
                     <MudIcon Icon="@MELFileSystemFunctionLibrary.GetFileSystemInfoIcon(file)" Size="@Size.Large" />
                     <MudText Style="overflow-wrap: anywhere; overflow: hidden;" Typo="@Typo.body1" Align="@Align.Center">
@@ -37,7 +37,7 @@
         StateHasChanged();
     }
 
-    protected void OnOpenFile(MouseEventArgs inMouseEventArgs, FileSystemInfo inFile)
+    protected void OnClickItem(MouseEventArgs inMouseEventArgs, FileSystemInfo inFile)
     {
         DirectoryInfo folder = inFile as DirectoryInfo;
         if (folder is not null)
