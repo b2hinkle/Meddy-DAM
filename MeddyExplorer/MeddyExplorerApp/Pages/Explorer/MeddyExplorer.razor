@@ -3,53 +3,7 @@
 @inject MeddyExplorerSessionInfo meddyExplorerSessionInfo
 
 <MEACurrentDirTextField />
-<MudTable T="FileSystemInfo" Items="@Items" Height="100%" FixedHeader="true" Dense="true" Hover="true" OnRowClick="@ItemRowClickEvent">
-    <HeaderContent>
-        <MudTh>
-            <MudText Typo="@Typo.body1">
-                Name
-            </MudText>
-        </MudTh>
-        <MudTh>
-            <MudText Typo="@Typo.body1">
-                Date Modified
-            </MudText>
-        </MudTh>
-        <MudTh>
-            <MudText Typo="@Typo.body1">
-                Type
-            </MudText>
-        </MudTh>
-        <MudTh>
-            <MudText Typo="@Typo.body1">
-                Size
-            </MudText>
-        </MudTh>
-    </HeaderContent>
-    <RowTemplate>
-        <MudTd DataLabel="Name">
-            <MudIcon Icon="@GetFileSystemInfoIcon(context)" />
-            <MudText Typo="@Typo.body1">
-                @context.Name
-            </MudText>
-        </MudTd>
-        <MudTd DataLabel="Date Modified">
-            <MudText Typo="@Typo.body1">
-                @context.LastWriteTime.ToString("yyyy-MM-dd hh-mm-ss")
-            </MudText>
-        </MudTd>
-        <MudTd DataLabel="Type">
-            <MudText Typo="@Typo.body1">
-                @MELFileSystemFunctionLibrary.GetFileSystemInfoTypeString(context)
-            </MudText>
-        </MudTd>
-        <MudTd DataLabel="Size">
-            <MudText Typo="@Typo.body1">
-                @MELFileSystemFunctionLibrary.GetFileSystemInfoSizeString(context)
-            </MudText>
-        </MudTd>
-    </RowTemplate>
-</MudTable>
+<MEACurrentDirFilesTable />
 
 @code
 {
@@ -93,20 +47,5 @@
         {
             meddyExplorerSessionInfo.CurrentDir = folderInfo;
         }
-    }
-
-    public static string GetFileSystemInfoIcon(FileSystemInfo inFileSystemInfo)
-    {
-        if (inFileSystemInfo is FileInfo)
-        {
-            return Icons.Material.Filled.InsertDriveFile;
-        }
-
-        if (inFileSystemInfo is DirectoryInfo)
-        {
-            return Icons.Material.Filled.Folder;
-        }
-
-        return string.Empty;
     }
 }
