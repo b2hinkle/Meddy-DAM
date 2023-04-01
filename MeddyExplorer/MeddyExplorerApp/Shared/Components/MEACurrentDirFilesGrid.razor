@@ -5,7 +5,7 @@
     @foreach (FileSystemInfo file in Files)
     {
         <MudItem>
-            <MudButton Class="mea-hover-transition-duration-none" OnClick="@((inMouseEventArgs) => OnClickItem(inMouseEventArgs, file))">
+            <MudButton Class="mea-hover-transition-duration-none" OnClick="@((inMouseEventArgs) => OnFileSystemItemClicked(inMouseEventArgs, file))">
                 <div class="d-flex flex-column align-center" style="width: 100px; max-height: 100px;">
                     <MudIcon Icon="@MELFileSystemFunctionLibrary.GetFileSystemInfoIcon(file)" Size="@Size.Large" />
                     <MudText Style="overflow-wrap: anywhere; overflow: hidden;" Typo="@Typo.body1" Align="@Align.Center">
@@ -37,12 +37,17 @@
         StateHasChanged();
     }
 
-    protected void OnClickItem(MouseEventArgs inMouseEventArgs, FileSystemInfo inFile)
+    protected void OnFileSystemItemClicked(MouseEventArgs inMouseEventArgs, FileSystemInfo inFileSystemItem)
     {
-        DirectoryInfo folder = inFile as DirectoryInfo;
-        if (folder is not null)
+        FileInfo clickedFile = inFileSystemItem as FileInfo;
+        if (clickedFile is not null)
         {
-            meddyExplorerSessionInfo.CurrentDir = folder;
+            // Process.Start
+        }
+        DirectoryInfo clickedDirectory = inFileSystemItem as DirectoryInfo;
+        if (clickedDirectory is not null)
+        {
+            meddyExplorerSessionInfo.CurrentDir = clickedDirectory;
         }
     }
 }
