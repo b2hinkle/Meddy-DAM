@@ -1,0 +1,6 @@
+/**
+ * 
+ */
+.mea-hover-transition-duration-none:hover {
+    transition-duration: 0ms;
+}

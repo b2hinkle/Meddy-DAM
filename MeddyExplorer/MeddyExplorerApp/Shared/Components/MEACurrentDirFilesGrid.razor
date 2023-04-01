@@ -5,12 +5,14 @@
     @foreach (FileSystemInfo file in Files)
     {
         <MudItem>
-            <div class="d-flex flex-column align-center" style="width: 100px; height: 100px;">
-                <MudIcon Icon="@MELFileSystemFunctionLibrary.GetFileSystemInfoIcon(file)" Size="@Size.Large" />
-                <MudText Style="overflow-wrap: anywhere; overflow: hidden;" Typo="@Typo.body1" Align="@Align.Center">
-                    @MELFileSystemFunctionLibrary.GetFileSystemInfoNameString(file)
-                </MudText>
-            </div>
+            <MudButton Class="mea-hover-transition-duration-none" OnClick="@((inMouseEventArgs) => OnOpenFile(inMouseEventArgs, file))">
+                <div class="d-flex flex-column align-center" style="width: 100px; max-height: 100px;">
+                    <MudIcon Icon="@MELFileSystemFunctionLibrary.GetFileSystemInfoIcon(file)" Size="@Size.Large" />
+                    <MudText Style="overflow-wrap: anywhere; overflow: hidden;" Typo="@Typo.body1" Align="@Align.Center">
+                        @MELFileSystemFunctionLibrary.GetFileSystemInfoNameString(file)
+                    </MudText>
+                </div>
+            </MudButton>
         </MudItem>
     }
 </MudGrid>
@@ -35,9 +37,9 @@
         StateHasChanged();
     }
 
-    protected void ItemRowClickEvent(TableRowClickEventArgs<FileSystemInfo> tableRowClickEventArgs)
+    protected void OnOpenFile(MouseEventArgs inMouseEventArgs, FileSystemInfo inFile)
     {
-        DirectoryInfo folder = tableRowClickEventArgs.Item as DirectoryInfo;
+        DirectoryInfo folder = inFile as DirectoryInfo;
         if (folder is not null)
         {
             meddyExplorerSessionInfo.CurrentDir = folder;

@@ -1,7 +1,7 @@
 ﻿@using MeddyExplorerApp.Objects
 @inject MeddyExplorerSessionInfo meddyExplorerSessionInfo
 
-<MudTable T="FileSystemInfo" Items="@Files" Height="100%" FixedHeader="true" Dense="true" Hover="true" OnRowClick="@ItemRowClickEvent">
+<MudTable T="FileSystemInfo" Items="@Files" Height="100%" FixedHeader="true" Dense="true" Hover="true" OnRowClick="@OnOpenFile">
     <HeaderContent>
         <MudTh>
             <MudText Typo="@Typo.body1">
@@ -69,9 +69,9 @@
         StateHasChanged();
     }
 
-    protected void ItemRowClickEvent(TableRowClickEventArgs<FileSystemInfo> tableRowClickEventArgs)
+    protected void OnOpenFile(TableRowClickEventArgs<FileSystemInfo> inTableRowClickEventArgs)
     {
-        DirectoryInfo folder = tableRowClickEventArgs.Item as DirectoryInfo;
+        DirectoryInfo folder = inTableRowClickEventArgs.Item as DirectoryInfo;
         if (folder is not null)
         {
             meddyExplorerSessionInfo.CurrentDir = folder;
