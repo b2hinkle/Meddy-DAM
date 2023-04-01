@@ -31,11 +31,11 @@ public class MEAPersistentData
         private set { _recentMeddyProjects = value; }
     }
 
-    public void AddToRecentMeddyProjects(DirectoryInfo inNewRootDir)
+    public void AddNewRecentMeddyProject(DirectoryInfo inNewRootDir)
     {
         if (RecentMeddyProjects.Count > 0)
         {
-            if (RecentMeddyProjects.Last() == inNewRootDir.FullName) // no need to add if it's already on the top of the list
+            if (RecentMeddyProjects.First() == inNewRootDir.FullName) // no need to add if it's already on the top of the list
             {
                 return;
             }
@@ -45,7 +45,7 @@ public class MEAPersistentData
             }
         }
 
-        RecentMeddyProjects.Add(inNewRootDir.FullName);
+        RecentMeddyProjects.Insert(0, inNewRootDir.FullName);
     }
 
     public void LoadFromDisk(object sender, EventArgs e)

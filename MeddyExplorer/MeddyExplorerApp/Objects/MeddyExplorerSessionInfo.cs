@@ -39,7 +39,7 @@
 
         public MeddyExplorerSessionInfo()
         {
-            OnRootDirChanged += (inOldRootDir, inNewRootDir) => App.persistentData.AddToRecentMeddyProjects(inNewRootDir);
+            OnRootDirChanged += (inOldRootDir, inNewRootDir) => App.persistentData.AddNewRecentMeddyProject(inNewRootDir);
         }
     }
 }
