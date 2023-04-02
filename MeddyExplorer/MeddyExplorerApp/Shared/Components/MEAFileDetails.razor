@@ -1,0 +1,23 @@
+﻿<div class="mud-width-full mud-height-full pa-3">
+    <div class="mud-width-full d-flex align-center justify-center" style="aspect-ratio: 1;">
+        <MudIcon Icon="" Size="@Size.Large" />
+    </div>
+    <MudTextField T="string" Text="" Margin="@Margin.Dense" Variant="@Variant.Outlined" />
+    <MudText Typo="@Typo.h5">
+        Details
+    </MudText>
+    <MudText Typo="@Typo.body1">
+        Date: 
+    </MudText>
+    <MudText Typo="@Typo.body1">
+        Type: 
+    </MudText>
+    <MudText Typo="@Typo.body1">
+        Size: 
+    </MudText>
+</div>
+
+@code
+{
+    public FileSystemInfo File { get; set; }
+}

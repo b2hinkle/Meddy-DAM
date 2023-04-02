@@ -5,7 +5,11 @@
     <AppBar OnToggleDrawerClickedEvent="@(() => DrawerOpen = !DrawerOpen)" />
     <NavMenuDrawer DrawerOpen="@DrawerOpen" />
     <MudMainContent>
+        <MEACurrentDirTextField />
         @Body
+        <MudDrawer Anchor="@Anchor.End" ClipMode="@DrawerClipMode.Docked" Open="true">
+            <MEAFileDetails />
+        </MudDrawer>
     </MudMainContent>
 </MudLayout>
 
