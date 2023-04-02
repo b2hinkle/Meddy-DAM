@@ -59,13 +59,11 @@
     {
         base.OnInitialized();
 
-        // Unnecessary to raise events initially so we will just directly set the backing variables
-        _rootDir = new DirectoryInfo(rootDir);
-        _currentDir = _rootDir;
+        RootDir = new DirectoryInfo(rootDir);
+        CurrentDir = RootDir;
+        App.persistentData.AddNewRecentMeddyProject(RootDir);
 
         MELFileSystemFunctionLibrary.PopulateFileSystemInfoList(Files, CurrentDir.FullName);
-
-        OnRootDirChangedDelegate += (inOldRootDir, inNewRootDir) => App.persistentData.AddNewRecentMeddyProject(inNewRootDir);
     }
 
     protected void OnChildComponentChangeCurrentDir(DirectoryInfo inNewCurrentDir)
