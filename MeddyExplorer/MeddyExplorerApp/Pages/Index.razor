@@ -6,14 +6,30 @@
 @inject MeddyExplorerSessionInfo meddyExplorerSessionInfo
 @inject NavigationManager navigationManager
 
-<MudButton OnClick="@OpenFolderPicker" Variant="@Variant.Filled">
+<MudButton OnClick="@OnCreateNewMeddyProjectClick" Color="Color.Primary" Variant="@Variant.Filled">
     <MudText Typo="@Typo.body1">
         Create New Meddy Project
     </MudText>
 </MudButton>
 
+<MudTable Items="@Items" FixedHeader="true" Dense="true" Hover="true" Breakpoint="Breakpoint.Sm" OnRowClick="@ItemRowClickEvent" T="string" LoadingProgressColor="Color.Info">
+    <HeaderContent>
+        <MudTh>Project</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Project">@context</MudTd>
+    </RowTemplate>
+</MudTable>
+
 @code
 {
+    private List<string> Items = new List<string>();
+
+    protected override void OnInitialized()
+    {
+        Items = App.persistentData.RecentMeddyProjects;
+    }
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await CheckAndRequestStorageReadPermission();
@@ -45,19 +61,38 @@
         return status;
     }
 
-    protected async Task OpenFolderPicker()
+    protected async Task OnCreateNewMeddyProjectClick()
     {
-        FolderPickerResult pickedFolder = await folderPicker.PickAsync("./", CancellationToken.None);
-
+        FolderPickerResult pickedFolder = await folderPicker.PickAsync(".", CancellationToken.None);
         if (pickedFolder.IsSuccessful)
         {
-            string pickedFolderPath = pickedFolder.Folder.Path;
-            meddyExplorerSessionInfo.RootDir = new DirectoryInfo(pickedFolderPath);
-            meddyExplorerSessionInfo.CurrentDir = new DirectoryInfo(pickedFolderPath);
-            navigationManager.NavigateTo("/meddy-explorer");
-            return;
+            string newProjectFolderPath = pickedFolder.Folder.Path;
+            if (App.persistentData.RecentMeddyProjects.Contains(newProjectFolderPath) == false)
+            {
+                OpenMeddyProject(newProjectFolderPath);
+            }
+            else
+            {
+                AlertProjectDirectoryAlreadyExists();
+            }
         }
+    }
 
-        Console.WriteLine("Could not get a folder path from selection");
+    private void OpenMeddyProject(string inMeddyProjectFolderPath)
+    {
+        meddyExplorerSessionInfo.RootDir = new DirectoryInfo(inMeddyProjectFolderPath);
+        meddyExplorerSessionInfo.CurrentDir = new DirectoryInfo(inMeddyProjectFolderPath);
+        navigationManager.NavigateTo("/meddy-explorer");
+
+    }
+
+    private void AlertProjectDirectoryAlreadyExists()
+    {
+        // message saying there is already a project in this directory
+    }
+
+    private void ItemRowClickEvent(TableRowClickEventArgs<string> tableRowClickEventArgs)
+    {
+        OpenMeddyProject(tableRowClickEventArgs.Item);
     }
 }

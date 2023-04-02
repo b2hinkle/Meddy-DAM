@@ -1,29 +1,33 @@
-﻿using Microsoft.AspNetCore.Components;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MeddyExplorerApp.Objects
+﻿namespace MeddyExplorerApp.Objects
 {
-    internal class MeddyExplorerSessionInfo
+    public class MeddyExplorerSessionInfo
     {
-        public delegate void DirectoryParametersDelegate(DirectoryInfo inOldCurrentDir, DirectoryInfo inNewCurrentDir);
+        public delegate void DirectoryParametersDelegate(DirectoryInfo in1, DirectoryInfo in2);
+        public event DirectoryParametersDelegate OnRootDirChanged;
         public event DirectoryParametersDelegate OnCurrentDirChanged;
 
-        public DirectoryInfo RootDir { get; set; }
+        private DirectoryInfo rootDir;
+        public DirectoryInfo RootDir
+        {
+            get { return rootDir; }
+            set
+            {
+                DirectoryInfo oldValue = rootDir;
+                rootDir = value;
+
+                if (OnRootDirChanged is not null)
+                {
+                    OnRootDirChanged.Invoke(oldValue, rootDir);
+                }
+            }
+        }
         private DirectoryInfo currentDir;
         public DirectoryInfo CurrentDir
         {
-            get
-            {
-                return currentDir;
-            }
+            get { return currentDir; }
             set
             {
                 DirectoryInfo oldValue = currentDir;
-
                 currentDir = value;
 
                 if (OnCurrentDirChanged is not null)
@@ -31,6 +35,11 @@ namespace MeddyExplorerApp.Objects
                     OnCurrentDirChanged.Invoke(oldValue, currentDir);
                 }
             }
+        }
+
+        public MeddyExplorerSessionInfo()
+        {
+            OnRootDirChanged += (inOldRootDir, inNewRootDir) => App.persistentData.AddNewRecentMeddyProject(inNewRootDir);
         }
     }
 }
