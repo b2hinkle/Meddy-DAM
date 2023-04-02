@@ -22,7 +22,7 @@
     public event DirectoryParametersDelegate OnRootDirChangedDelegate;
     public event DirectoryParametersDelegate OnCurrentDirChangedDelegate;
 
-    [Parameter]
+    [Parameter, EditorRequired]
     public string rootDir { get; set; }
     private DirectoryInfo _rootDir { get; set; }
     public DirectoryInfo RootDir
