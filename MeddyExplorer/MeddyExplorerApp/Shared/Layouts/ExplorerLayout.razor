@@ -2,8 +2,6 @@
 @layout MainLayout
 
 <MudLayout>
-    <AppBar OnToggleDrawerClickedEvent="@(() => DrawerOpen = !DrawerOpen)" />
-    <NavMenuDrawer DrawerOpen="@DrawerOpen" />
     <MudMainContent>
         @Body
     </MudMainContent>
@@ -11,5 +9,5 @@
 
 @code
 {
-    private bool DrawerOpen = false;
+
 }

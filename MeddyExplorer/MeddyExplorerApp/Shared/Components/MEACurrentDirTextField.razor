@@ -1,36 +1,27 @@
-﻿@using MeddyExplorerApp.Objects
-@inject MeddyExplorerSessionInfo meddyExplorerSessionInfo
-
-<MudTextField @ref="@TextField" T="string" Text="@meddyExplorerSessionInfo.CurrentDir.FullName" Variant="@Variant.Outlined" Margin="@Margin.Dense" ValueChanged="@OnValueChanged" />
+﻿<MudTextField @ref="@TextField" T="string" Text="@CurrentDir.FullName" Variant="@Variant.Outlined" Margin="@Margin.Dense" ValueChanged="@OnValueChanged" />
 
 @code
 {
     MudTextField<string> TextField { get; set; }
 
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-
-        meddyExplorerSessionInfo.OnCurrentDirChanged += OnCurrentDirChanged;
-    }
-
-    protected void OnCurrentDirChanged(DirectoryInfo inOldCurrentDir, DirectoryInfo inNewCurrentDir)
-    {
-        StateHasChanged();
-    }
+    [Parameter]
+    public DirectoryInfo CurrentDir { get; set; }
+    [Parameter]
+    public EventCallback<DirectoryInfo> OnCurrentDirChangedEvent { get; set; }
 
     protected async Task OnValueChanged(string inNewValue)
     {
-        // Change current directory
+        // Change current directory by updating the parent's. Our CurrentDir member is a parameter so we will automatically recieve the new value
         if (Directory.Exists(inNewValue))
         {
-            meddyExplorerSessionInfo.CurrentDir = new DirectoryInfo(inNewValue);
+            await OnCurrentDirChangedEvent.InvokeAsync(new DirectoryInfo(inNewValue));
+
+            if (TextField is not null)
+            {
+                await TextField.Clear();
+                await TextField.BlurAsync();
+            }
         }
 
-        if (TextField is not null)
-        {
-            await TextField.Clear();
-            await TextField.BlurAsync();
-        }
     }
 }

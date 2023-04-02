@@ -1,7 +1,4 @@
-﻿@using MeddyExplorerApp.Objects;
-@inject MeddyExplorerSessionInfo meddyExplorerSessionInfo
-
-<MudAppBar Dense="true" Color="@Color.Primary" Elevation="1">
+﻿<MudAppBar Dense="true" Color="@Color.Primary" Elevation="1">
     <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="@Color.Inherit" Edge="@Edge.Start" OnClick="@(() => OnToggleDrawerClickedEvent.InvokeAsync())" />
     <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Filled.KeyboardArrowLeft" OnClick="@OnBackButtonClick" />
     <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Filled.KeyboardArrowRight" OnClick="@OnForwardButtonClick" />
@@ -27,11 +24,15 @@
 {
     [Parameter]
     public EventCallback OnToggleDrawerClickedEvent { get; set; }
+    [Parameter]
+    public DirectoryInfo CurrentDir { get; set; }
+    [Parameter]
+    public EventCallback<DirectoryInfo> OnCurrentDirChangedEvent { get; set; }
 
     public bool isMaximized { get; set; }
     private void OnUpButtonClick()
     {
-        meddyExplorerSessionInfo.CurrentDir = meddyExplorerSessionInfo.CurrentDir.Parent;
+        OnCurrentDirChangedEvent.InvokeAsync(CurrentDir.Parent);
     }
     private void OnBackButtonClick()
     {

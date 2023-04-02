@@ -2,8 +2,6 @@
 @layout BlankLayout
 @using CommunityToolkit.Maui.Storage
 @inject IFolderPicker folderPicker
-@using MeddyExplorerApp.Objects
-@inject MeddyExplorerSessionInfo meddyExplorerSessionInfo
 @inject NavigationManager navigationManager
 
 <MudButton OnClick="@OnCreateNewMeddyProjectClick" Color="Color.Primary" Variant="@Variant.Filled">
@@ -80,9 +78,7 @@
 
     private void OpenMeddyProject(string inMeddyProjectFolderPath)
     {
-        meddyExplorerSessionInfo.RootDir = new DirectoryInfo(inMeddyProjectFolderPath);
-        meddyExplorerSessionInfo.CurrentDir = new DirectoryInfo(inMeddyProjectFolderPath);
-        navigationManager.NavigateTo("/meddy-explorer");
+        navigationManager.NavigateTo($"/meddy-explorer/{inMeddyProjectFolderPath}");
 
     }
 

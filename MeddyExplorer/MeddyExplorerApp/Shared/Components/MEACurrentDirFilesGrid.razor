@@ -1,7 +1,4 @@
-﻿@using MeddyExplorerApp.Objects
-@inject MeddyExplorerSessionInfo meddyExplorerSessionInfo
-
-<MudGrid Justify="@Justify.FlexStart">
+﻿<MudGrid Justify="@Justify.FlexStart">
     @foreach (FileSystemInfo file in Files)
     {
         <MudItem>
@@ -19,23 +16,10 @@
 
 @code
 {
-    protected List<FileSystemInfo> Files = new();
-
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-
-        MELFileSystemFunctionLibrary.PopulateFileSystemInfoList(Files, meddyExplorerSessionInfo.CurrentDir.FullName);
-        meddyExplorerSessionInfo.OnCurrentDirChanged += OnCurrentDirChanged;
-    }
-
-    protected void OnCurrentDirChanged(DirectoryInfo inOldCurrentDir, DirectoryInfo inNewCurrentDir)
-    {
-        Files.Clear();
-        MELFileSystemFunctionLibrary.PopulateFileSystemInfoList(Files, meddyExplorerSessionInfo.CurrentDir.FullName);
-
-        StateHasChanged();
-    }
+    [Parameter]
+    public List<FileSystemInfo> Files { get; set; }
+    [Parameter]
+    public EventCallback<DirectoryInfo> OnFileSystemItemClickedDelegate { get; set; }
 
     protected void OnFileSystemItemClicked(MouseEventArgs inMouseEventArgs, FileSystemInfo inFileSystemItem)
     {
@@ -47,7 +31,7 @@
         DirectoryInfo clickedDirectory = inFileSystemItem as DirectoryInfo;
         if (clickedDirectory is not null)
         {
-            meddyExplorerSessionInfo.CurrentDir = clickedDirectory;
+            OnFileSystemItemClickedDelegate.InvokeAsync(clickedDirectory);
         }
     }
 }

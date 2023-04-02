@@ -3,7 +3,6 @@ using MudBlazor.Services;
 using MudBlazorExtensionLibrary.Services;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Storage;
-using MeddyExplorerApp.Objects;
 
 namespace MeddyExplorerApp;
 
@@ -24,7 +23,6 @@ public static class MauiProgram
         builder.Services.AddMauiBlazorWebView();
         builder.Services.AddMudServices();
 		builder.Services.AddScoped<MBELLayoutService>();
-        builder.Services.AddSingleton<MeddyExplorerSessionInfo>();
 
 #if DEBUG
         builder.Services.AddBlazorWebViewDeveloperTools();
