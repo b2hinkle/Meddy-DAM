@@ -23,9 +23,9 @@
     public event DirectoryParametersDelegate OnCurrentDirChangedDelegate;
 
     [Parameter, EditorRequired]
-    public string rootDir { get; set; }
-    private DirectoryInfo _rootDir { get; set; }
-    public DirectoryInfo RootDir
+    public string rootDir { get; set; } // injected
+    private DirectoryInfo _rootDir { get; set; } // backing
+    public DirectoryInfo RootDir // property
     {
         get { return _rootDir; }
         set
