@@ -1,12 +1,16 @@
 ﻿@* navigating to this component requires you to pass in a root directory through the url *@
 @page "/meddy-explorer/{*rootDir}"
 
-
 <AppBar OnToggleDrawerClickedEvent="@(() => DrawerOpen = !DrawerOpen)" CurrentDir="@CurrentDir" OnCurrentDirChangedEvent="@OnChildComponentChangeCurrentDir" />
 <NavMenuDrawer DrawerOpen="@DrawerOpen" />
 
 <MEACurrentDirTextField CurrentDir="@CurrentDir" OnCurrentDirChangedEvent="@OnChildComponentChangeCurrentDir" />
 <MEACurrentDirFilesGrid Files="@Files" OnFileSystemItemClickedDelegate="@OnChildComponentChangeCurrentDir" />
+
+@* Details Panel *@
+<MudDrawer Anchor="@Anchor.End" ClipMode="@DrawerClipMode.Docked" Open="true">
+    <MEAFileDetails />
+</MudDrawer>
 
 @code
 {
