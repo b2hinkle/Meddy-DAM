@@ -1,11 +1,15 @@
 ﻿@* navigating to this component requires you to pass in a root directory through the url *@
 @page "/meddy-explorer/{*rootDir}"
+@using MeddyExplorerApp.Services;
+@inject MeddyExplorerState meddyExplorerState
 
-<AppBar OnToggleDrawerClickedEvent="@(() => DrawerOpen = !DrawerOpen)" CurrentDir="@CurrentDir" OnCurrentDirChangedEvent="@OnChildComponentChangeCurrentDir" />
-<NavMenuDrawer DrawerOpen="@DrawerOpen" />
+<AppBar OnToggleDrawerClickedEvent="@(() => meddyExplorerState.DrawerOpen = !meddyExplorerState.DrawerOpen)" />
+<NavMenuDrawer DrawerOpen="@meddyExplorerState.DrawerOpen" />
 
-<MEACurrentDirTextField CurrentDir="@CurrentDir" OnCurrentDirChangedEvent="@OnChildComponentChangeCurrentDir" />
-<MEACurrentDirFilesGrid Files="@Files" OnFileSystemItemClickedDelegate="@OnChildComponentChangeCurrentDir" />
+
+
+<MEACurrentDirTextField />
+<MEACurrentDirFilesGrid />
 
 @* Details Panel *@
 <MudDrawer Anchor="@Anchor.End" ClipMode="@DrawerClipMode.Docked" Open="true">
@@ -14,61 +18,11 @@
 
 @code
 {
-    public List<FileSystemInfo> Files { get; set; } = new();
-
-    private bool DrawerOpen = false;
-
-    public delegate void DirectoryParametersDelegate(DirectoryInfo in1, DirectoryInfo in2);
-    public event DirectoryParametersDelegate OnRootDirChangedDelegate;
-    public event DirectoryParametersDelegate OnCurrentDirChangedDelegate;
-
     [Parameter, EditorRequired]
-    public string rootDir { get; set; } // injected
-    private DirectoryInfo _rootDir { get; set; } // backing
-    public DirectoryInfo RootDir // property
-    {
-        get { return _rootDir; }
-        set
-        {
-            DirectoryInfo oldValue = _rootDir;
-            _rootDir = value;
-
-            if (OnRootDirChangedDelegate is not null)
-            {
-                OnRootDirChangedDelegate.Invoke(oldValue, _rootDir);
-            }
-        }
-    }
-    private DirectoryInfo _currentDir;
-    public DirectoryInfo CurrentDir
-    {
-        get { return _currentDir; }
-        set
-        {
-            DirectoryInfo oldValue = _currentDir;
-            _currentDir = value;
-
-            if (OnCurrentDirChangedDelegate is not null)
-            {
-                OnCurrentDirChangedDelegate.Invoke(oldValue, _currentDir);
-            }
-        }
-    }
+    public string rootDir { get; set; }
 
     protected override void OnInitialized()
     {
-        base.OnInitialized();
-
-        RootDir = new DirectoryInfo(rootDir);
-        CurrentDir = RootDir;
-        App.persistentData.AddNewRecentMeddyProject(RootDir);
-
-        MELFileSystemFunctionLibrary.PopulateFileSystemInfoList(Files, CurrentDir.FullName);
-    }
-
-    protected void OnChildComponentChangeCurrentDir(DirectoryInfo inNewCurrentDir)
-    {
-        CurrentDir = inNewCurrentDir;
-        MELFileSystemFunctionLibrary.PopulateFileSystemInfoList(Files, CurrentDir.FullName);
+        meddyExplorerState.RootDir = new DirectoryInfo(rootDir);
     }
 }

@@ -50,6 +50,15 @@
     </ItemGroup>
 
     <ItemGroup>
+      <AndroidResource Remove="Objects\**" />
+      <Compile Remove="Objects\**" />
+      <Content Remove="Objects\**" />
+      <EmbeddedResource Remove="Objects\**" />
+      <MauiXaml Remove="Objects\**" />
+      <None Remove="Objects\**" />
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="CommunityToolkit.Maui.Core" Version="5.0.0" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
         <PackageReference Include="MudBlazor" Version="6.2.0" />
@@ -59,10 +68,6 @@
       <ProjectReference Include="..\..\MeddyLibrary\MeddyLibrary\MeddyLibrary\MeddyLibrary.csproj" />
       <ProjectReference Include="..\..\MudBlazorExtension\MudBlazorExtension\MudBlazorExtensionLibrary\MudBlazorExtensionLibrary.csproj" />
       <ProjectReference Include="..\MeddyExplorerLibrary\MeddyExplorerLibrary.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Objects\" />
     </ItemGroup>
 
 </Project>

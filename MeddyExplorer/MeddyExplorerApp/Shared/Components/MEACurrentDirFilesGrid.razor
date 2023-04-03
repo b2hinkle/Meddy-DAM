@@ -1,5 +1,8 @@
-﻿<MudGrid Justify="@Justify.FlexStart">
-    @foreach (FileSystemInfo file in Files)
+﻿@using MeddyExplorerApp.Services;
+@inject MeddyExplorerState meddyExplorerState
+
+<MudGrid Justify="@Justify.FlexStart">
+    @foreach (FileSystemInfo file in meddyExplorerState.Files)
     {
         <MudItem>
             <MudButton Class="mea-hover-transition-duration-none" OnClick="@((inMouseEventArgs) => OnFileSystemItemClicked(inMouseEventArgs, file))">
@@ -16,10 +19,14 @@
 
 @code
 {
-    [Parameter]
-    public List<FileSystemInfo> Files { get; set; }
-    [Parameter]
-    public EventCallback<DirectoryInfo> OnFileSystemItemClickedDelegate { get; set; }
+    protected override void OnInitialized()
+    {
+        meddyExplorerState.OnCurrentDirChangedDelegate += OnCurrentDirChange;
+    }
+    public void OnCurrentDirChange(DirectoryInfo inOldCurrentDir, DirectoryInfo inNewCurrentDir)
+    {
+        StateHasChanged();
+    }
 
     protected void OnFileSystemItemClicked(MouseEventArgs inMouseEventArgs, FileSystemInfo inFileSystemItem)
     {
@@ -31,7 +38,7 @@
         DirectoryInfo clickedDirectory = inFileSystemItem as DirectoryInfo;
         if (clickedDirectory is not null)
         {
-            OnFileSystemItemClickedDelegate.InvokeAsync(clickedDirectory);
+            meddyExplorerState.CurrentDir = clickedDirectory;
         }
     }
 }
