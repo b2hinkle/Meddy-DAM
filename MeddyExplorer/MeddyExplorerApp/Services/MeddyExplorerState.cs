@@ -48,21 +48,13 @@ namespace MeddyExplorerApp.Services
             }
         }
 
-        public MeddyExplorerState()
+        // To be called from the component
+        public void Initialize(string inRootDir)
         {
-            OnRootDirChangedDelegate += OnRootDirInitialized;
             OnCurrentDirChangedDelegate += OnCurrentDirChanged;
-        }
-
-        private void OnRootDirInitialized(DirectoryInfo inOldRootDir, DirectoryInfo inNewRootDir)
-        {
-            OnRootDirChangedDelegate -= OnRootDirInitialized; // we're only meant to run to initialize things
-
-            if (inOldRootDir is null)
-            {
-                App.persistentData.AddNewRecentMeddyProject(inNewRootDir);
-                CurrentDir = inNewRootDir;
-            }
+            RootDir = new DirectoryInfo(inRootDir);
+            App.persistentData.AddNewRecentMeddyProject(RootDir);
+            CurrentDir = RootDir;
         }
 
         protected void OnCurrentDirChanged(DirectoryInfo inOldRootDir, DirectoryInfo inNewRootDir)
