@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MeddyExplorerApp.Services
 {
-    internal class MeddyExplorerState
+    internal class MeddyExplorerState : IDisposable
     {
         public List<FileSystemInfo> Files { get; set; } = new();
 
@@ -68,6 +68,13 @@ namespace MeddyExplorerApp.Services
         protected void OnCurrentDirChanged(DirectoryInfo inOldRootDir, DirectoryInfo inNewRootDir)
         {
             MELFileSystemFunctionLibrary.PopulateFileSystemInfoList(Files, CurrentDir.FullName);
+        }
+
+
+
+        public void Dispose()
+        {
+            OnCurrentDirChangedDelegate -= OnCurrentDirChanged;
         }
     }
 }

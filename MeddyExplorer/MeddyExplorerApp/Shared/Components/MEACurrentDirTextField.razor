@@ -1,5 +1,6 @@
 ﻿@using MeddyExplorerApp.Services;
 @inject MeddyExplorerState meddyExplorerState
+@implements IDisposable
 
 <MudTextField @ref="@TextField" T="string" Text="@meddyExplorerState.CurrentDir.FullName" Variant="@Variant.Outlined" Margin="@Margin.Dense" ValueChanged="@OnValueChanged" />
 
@@ -14,6 +15,11 @@
     public void OnCurrentDirChange(DirectoryInfo inOldCurrentDir, DirectoryInfo inNewCurrentDir)
     {
         StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        meddyExplorerState.OnCurrentDirChangedDelegate -= OnCurrentDirChange;
     }
 
     protected async Task OnValueChanged(string inNewValue)
