@@ -42,15 +42,42 @@ namespace MeddyExplorerLibrary
 
             return string.Empty;
         }
+        public static string GetFileSystemInfoIcon(List<FileSystemInfo> inFileSystemInfos)
+        {
+            if (inFileSystemInfos.Any())
+            {
+                return GetFileSystemInfoIcon(inFileSystemInfos.Last());
+            }
+
+            return string.Empty;
+        }
 
         public static string GetFileSystemInfoNameString(FileSystemInfo inFileSystemInfo)
         {
             return inFileSystemInfo.Name;
         }
+        public static string GetFileSystemInfoNameString(List<FileSystemInfo> inFileSystemInfos)
+        {
+            if (inFileSystemInfos.Any())
+            {
+                return GetFileSystemInfoNameString(inFileSystemInfos.Last());
+            }
+
+            return string.Empty;
+        }
 
         public static string GetFileSystemInfoDateString(FileSystemInfo inFileSystemInfo)
         {
             return inFileSystemInfo.LastWriteTime.ToString("yyyy-MM-dd hh-mm-ss");
+        }
+        public static string GetFileSystemInfoDateString(List<FileSystemInfo> inFileSystemInfos)
+        {
+            if (inFileSystemInfos.Any())
+            {
+                return GetFileSystemInfoDateString(inFileSystemInfos.Last());
+            }
+
+            return string.Empty;
         }
 
         public static string GetFileSystemInfoSizeString(FileSystemInfo inFileSystemInfo)
@@ -71,6 +98,15 @@ namespace MeddyExplorerLibrary
 
             return string.Empty;
         }
+        public static string GetFileSystemInfoSizeString(List<FileSystemInfo> inFileSystemInfos)
+        {
+            if (inFileSystemInfos.Any())
+            {
+                return GetFileSystemInfoSizeString(inFileSystemInfos.Last());
+            }
+
+            return string.Empty;
+        }
 
         public static string GetFileSystemInfoTypeString(FileSystemInfo inFileSystemInfo)
         {
@@ -83,6 +119,15 @@ namespace MeddyExplorerLibrary
             if (inFileSystemInfo is DirectoryInfo)
             {
                 return "Folder";
+            }
+
+            return string.Empty;
+        }
+        public static string GetFileSystemInfoTypeString(List<FileSystemInfo> inFileSystemInfos)
+        {
+            if (inFileSystemInfos.Any())
+            {
+                return GetFileSystemInfoTypeString(inFileSystemInfos.Last());
             }
 
             return string.Empty;

@@ -48,6 +48,25 @@ namespace MeddyExplorerApp.Services
             }
         }
 
+        public event EventHandler OnSelectedFilesChanged;
+
+        private List<FileSystemInfo> _selectedFiles;
+        public List<FileSystemInfo> SelectedFiles
+        {
+            get
+            {
+                return _selectedFiles;
+            }
+            set
+            {
+                _selectedFiles = value;
+                if (OnSelectedFilesChanged is not null)
+                {
+                    OnSelectedFilesChanged.Invoke(this, EventArgs.Empty);
+                }
+            }
+        }
+
         // To be called from the component
         public void Initialize(string inRootDir)
         {
@@ -55,6 +74,7 @@ namespace MeddyExplorerApp.Services
             RootDir = new DirectoryInfo(inRootDir);
             App.persistentData.AddNewRecentMeddyProject(RootDir);
             CurrentDir = RootDir;
+            SelectedFiles = new();
         }
 
         protected void OnCurrentDirChanged(DirectoryInfo inOldRootDir, DirectoryInfo inNewRootDir)
