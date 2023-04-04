@@ -1,11 +1,10 @@
 ﻿@using MudBlazor.Utilities
-@using MudBlazorExtensionLibrary.Shared.Components
 @using Services
 @inject MeddyExplorerState meddyExplorerState
 
-<MBELFileSystemItem OnSelect="@OnSelect" OnDeselect="@OnDeselect" OnOpen="@OnOpen">
+<MudButton Class="@BuildClass()" OnClick="@((inMouseEventArgs) => ToggleSelect())" @ondblclick=@((inMouseEventArgs) => Open())>
     @ChildContent
-</MBELFileSystemItem>
+</MudButton>
 
 @code
 {
@@ -13,19 +12,61 @@
     public RenderFragment ChildContent { get; set; }
 
     [Parameter]
+    public string Class { get; set; }
+
+    [Parameter]
     public FileSystemInfo FileSystemInfo { get; set; }
 
-    protected void OnSelect()
+    protected string BuildClass()
+    {
+        return new CssBuilder()
+            .AddClass(Class)
+            .AddClass("mbel-hover-transition-duration-none") // give responsive hover feedback
+            .AddClass("mae-file-system-item-selected", Selected) // add selected class when selected
+            .Build();
+    }
+
+    // TODO: Make this a public parameter
+    protected bool Selected { get; set; } = false;
+
+    [Parameter]
+    public EventCallback OnSelect { get; set; }
+
+    [Parameter]
+    public EventCallback OnDeselect { get; set; }
+
+    [Parameter]
+    public EventCallback OnOpen { get; set; }
+
+    protected async Task Select()
     {
         meddyExplorerState.AddToSelectedFiles(FileSystemInfo);
+
+        await OnSelect.InvokeAsync();
     }
 
-    protected void OnDeselect()
+    protected async Task Deselect()
     {
         meddyExplorerState.RemoveFromSelectedFiles(FileSystemInfo);
+
+        await OnDeselect.InvokeAsync();
     }
 
-    protected void OnOpen()
+    protected async Task ToggleSelect()
+    {
+        Selected = !Selected;
+
+        if (Selected)
+        {
+            await Select();
+        }
+        else
+        {
+            await Deselect();
+        }
+    }
+
+    protected async Task Open()
     {
         FileInfo fileToOpen = FileSystemInfo as FileInfo;
         if (fileToOpen is not null)
@@ -38,5 +79,7 @@
         {
             meddyExplorerState.CurrentDir = directoryToOpen;
         }
+
+        await OnOpen.InvokeAsync();
     }
 }

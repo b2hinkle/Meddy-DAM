@@ -1,0 +1,6 @@
+/**
+ * Style of selected file system items.
+ */
+.mae-file-system-item-selected {
+    background-color: var(--mud-palette-action-default-hover) !important;
+}
