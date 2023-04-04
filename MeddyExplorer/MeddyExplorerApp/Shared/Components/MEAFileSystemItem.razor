@@ -1,8 +1,9 @@
 ﻿@using MudBlazor.Utilities
 @using Services
 @inject MeddyExplorerState meddyExplorerState
+@implements IDisposable
 
-<MudButton Class="@BuildClass()" OnClick="@((inMouseEventArgs) => ToggleSelect())" @ondblclick=@((inMouseEventArgs) => Open())>
+<MudButton Class="@BuildClass()" OnClick="@OnClick" @ondblclick=@OnDblClick @onkeydown=@OnKeyDown>
     @ChildContent
 </MudButton>
 
@@ -14,9 +15,6 @@
     [Parameter]
     public string Class { get; set; }
 
-    [Parameter]
-    public FileSystemInfo FileSystemInfo { get; set; }
-
     protected string BuildClass()
     {
         return new CssBuilder()
@@ -26,8 +24,8 @@
             .Build();
     }
 
-    // TODO: Make this a public parameter
-    protected bool Selected { get; set; } = false;
+    [Parameter]
+    public FileSystemInfo FileSystemInfo { get; set; }
 
     [Parameter]
     public EventCallback OnSelect { get; set; }
@@ -38,35 +36,72 @@
     [Parameter]
     public EventCallback OnOpen { get; set; }
 
-    protected async Task Select()
+    /// <summary>
+    /// Cached value of whether we are selected or not.
+    /// </summary>
+    protected bool Selected { get; set; } = false;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        Selected = meddyExplorerState.GetSelectedFiles().Contains(FileSystemInfo);
+
+        meddyExplorerState.OnFileSelected += OnFileSelected;
+        meddyExplorerState.OnFileDeselected += OnFileDeselected;
+    }
+
+    protected void OnFileSelected(object sender, FileSystemInfo inFileSystemInfo)
+    {
+        if (inFileSystemInfo == FileSystemInfo)
+        {
+            // We have been selected, update ourselves
+            Selected = true;
+            OnSelect.InvokeAsync();
+            StateHasChanged();
+        }
+    }
+
+    protected void OnFileDeselected(object sender, FileSystemInfo inFileSystemInfo)
+    {
+        if (inFileSystemInfo == FileSystemInfo)
+        {
+            // We have been deselected, update ourselves
+            Selected = false;
+            OnDeselect.InvokeAsync();
+            StateHasChanged();
+        }
+    }
+
+    public void Dispose()
+    {
+        meddyExplorerState.OnFileSelected -= OnFileSelected;
+        meddyExplorerState.OnFileDeselected -= OnFileDeselected;
+    }
+
+    protected void Select()
     {
         meddyExplorerState.AddToSelectedFiles(FileSystemInfo);
-
-        await OnSelect.InvokeAsync();
     }
 
-    protected async Task Deselect()
+    protected void Deselect()
     {
         meddyExplorerState.RemoveFromSelectedFiles(FileSystemInfo);
-
-        await OnDeselect.InvokeAsync();
     }
 
-    protected async Task ToggleSelect()
+    protected void ToggleSelected()
     {
-        Selected = !Selected;
-
-        if (Selected)
+        if (!Selected)
         {
-            await Select();
+            Select();
         }
         else
         {
-            await Deselect();
+            Deselect();
         }
     }
 
-    protected async Task Open()
+    protected void Open()
     {
         FileInfo fileToOpen = FileSystemInfo as FileInfo;
         if (fileToOpen is not null)
@@ -80,6 +115,39 @@
             meddyExplorerState.CurrentDir = directoryToOpen;
         }
 
-        await OnOpen.InvokeAsync();
+        OnOpen.InvokeAsync();
+    }
+
+    protected void OnClick(MouseEventArgs e)
+    {
+        if (e.CtrlKey && e.ShiftKey)
+        {
+            return;
+        }
+
+        if (e.CtrlKey)
+        {
+            ToggleSelected();
+            return;
+        }
+
+        if (e.ShiftKey)
+        {
+            return;
+        }
+
+        // Default exclusive select
+        meddyExplorerState.ClearSelectedFiles();
+        Select();
+    }
+
+    protected void OnDblClick(MouseEventArgs e)
+    {
+        Open();
+    }
+
+    protected void OnKeyDown(KeyboardEventArgs e)
+    {
+
     }
 }

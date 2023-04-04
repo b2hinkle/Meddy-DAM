@@ -50,6 +50,8 @@ namespace MeddyExplorerApp.Services
         }
 
         public event EventHandler OnSelectedFilesChanged;
+        public event EventHandler<FileSystemInfo> OnFileSelected;
+        public event EventHandler<FileSystemInfo> OnFileDeselected;
 
         protected List<FileSystemInfo> SelectedFiles { get; set; }
 
@@ -62,6 +64,10 @@ namespace MeddyExplorerApp.Services
         {
             SelectedFiles.Add(inFileSystemInfo);
 
+            if (OnFileSelected is not null)
+            {
+                OnFileSelected.Invoke(this, inFileSystemInfo);
+            }
             if (OnSelectedFilesChanged is not null)
             {
                 OnSelectedFilesChanged.Invoke(this, EventArgs.Empty);
@@ -71,6 +77,10 @@ namespace MeddyExplorerApp.Services
         {
             SelectedFiles.Remove(inFileSystemInfo);
 
+            if (OnFileDeselected is not null)
+            {
+                OnFileDeselected.Invoke(this, inFileSystemInfo);
+            }
             if (OnSelectedFilesChanged is not null)
             {
                 OnSelectedFilesChanged.Invoke(this, EventArgs.Empty);
@@ -78,11 +88,9 @@ namespace MeddyExplorerApp.Services
         }
         public void ClearSelectedFiles()
         {
-            SelectedFiles.Clear();
-
-            if (OnSelectedFilesChanged is not null)
+            foreach (FileSystemInfo fileSystemInfo in new List<FileSystemInfo>(SelectedFiles))
             {
-                OnSelectedFilesChanged.Invoke(this, EventArgs.Empty);
+                RemoveFromSelectedFiles(fileSystemInfo);
             }
         }
 

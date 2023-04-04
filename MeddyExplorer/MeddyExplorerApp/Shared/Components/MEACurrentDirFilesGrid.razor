@@ -23,14 +23,9 @@
     protected override void OnInitialized()
     {
         meddyExplorerState.OnCurrentDirChangedDelegate += OnCurrentDirChange;
-        meddyExplorerState.OnSelectedFilesChanged += OnSelectedFilesChanged;
     }
 
     public void OnCurrentDirChange(DirectoryInfo inOldCurrentDir, DirectoryInfo inNewCurrentDir)
-    {
-        StateHasChanged();
-    }
-    public void OnSelectedFilesChanged(object sender, EventArgs e)
     {
         StateHasChanged();
     }
@@ -38,6 +33,5 @@
     public void Dispose()
     {
         meddyExplorerState.OnCurrentDirChangedDelegate -= OnCurrentDirChange;
-        meddyExplorerState.OnSelectedFilesChanged -= OnSelectedFilesChanged;
     }
 }
