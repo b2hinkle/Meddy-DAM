@@ -3,9 +3,6 @@
 @using MeddyExplorerApp.Services;
 @inject MeddyExplorerState meddyExplorerState
 
-<AppBar OnToggleDrawerClickedEvent="@(() => meddyExplorerState.DrawerOpen = !meddyExplorerState.DrawerOpen)" />
-<NavMenuDrawer DrawerOpen="@meddyExplorerState.DrawerOpen" />
-
 
 
 <MEACurrentDirTextField />

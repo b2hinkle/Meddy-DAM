@@ -1,7 +1,7 @@
 ﻿@using MeddyExplorerApp.Services;
 @inject MeddyExplorerState meddyExplorerState
 
-<MudAppBar Dense="true" Color="@Color.Primary" Elevation="1">
+<MudAppBar Dense="true" Color="@Color.Primary" Elevation="0">
     <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="@Color.Inherit" Edge="@Edge.Start" OnClick="@(() => OnToggleDrawerClickedEvent.InvokeAsync())" />
     <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Filled.KeyboardArrowLeft" OnClick="@OnBackButtonClick" />
     <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Filled.KeyboardArrowRight" OnClick="@OnForwardButtonClick" />

@@ -1,7 +1,11 @@
 ﻿@inherits LayoutComponentBase
 @layout MainLayout
+@using MeddyExplorerApp.Services;
+@inject MeddyExplorerState meddyExplorerState
 
 <MudLayout>
+    <AppBar OnToggleDrawerClickedEvent="@(() => meddyExplorerState.DrawerOpen = !meddyExplorerState.DrawerOpen)" />
+    <NavMenuDrawer DrawerOpen="@meddyExplorerState.DrawerOpen" />
     <MudMainContent>
         @Body
     </MudMainContent>
@@ -9,5 +13,4 @@
 
 @code
 {
-
 }
