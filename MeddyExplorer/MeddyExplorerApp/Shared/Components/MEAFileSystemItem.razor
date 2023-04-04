@@ -1,8 +1,11 @@
 ﻿@using MudBlazor.Utilities
+@using MudBlazorExtensionLibrary.Shared.Components
+@using Services
+@inject MeddyExplorerState meddyExplorerState
 
-<MudButton Class="@BuildClass()" OnClick="@((inMouseEventArgs) => HandleOnToggleSelect())" @ondblclick=@((inMouseEventArgs) => HandleOnOpen())>
+<MBELFileSystemItem OnSelect="@OnSelect" OnDeselect="@OnDeselect" OnOpen="@OnOpen">
     @ChildContent
-</MudButton>
+</MBELFileSystemItem>
 
 @code
 {
@@ -10,45 +13,30 @@
     public RenderFragment ChildContent { get; set; }
 
     [Parameter]
-    public string Class { get; set; }
+    public FileSystemInfo FileSystemInfo { get; set; }
 
-    protected string BuildClass()
+    protected void OnSelect()
     {
-        return new CssBuilder()
-            .AddClass(Class)
-            .AddClass("mea-hover-transition-duration-none") // give responsive hover feedback
-            .AddClass("mea-file-system-item-selected", Selected) // add the this class when selected
-            .Build();
+        meddyExplorerState.AddToSelectedFiles(FileSystemInfo);
     }
 
-    // TODO: Make this a public parameter
-    protected bool Selected { get; set; } = false;
-
-    [Parameter]
-    public EventCallback OnSelect { get; set; }
-
-    [Parameter]
-    public EventCallback OnDeselect { get; set; }
-
-    protected async Task HandleOnToggleSelect()
+    protected void OnDeselect()
     {
-        Selected = !Selected;
-
-        if (Selected)
-        {
-            await OnSelect.InvokeAsync();
-        }
-        else
-        {
-            await OnDeselect.InvokeAsync();
-        }
+        meddyExplorerState.RemoveFromSelectedFiles(FileSystemInfo);
     }
 
-    [Parameter]
-    public EventCallback OnOpen { get; set; }
-
-    protected async Task HandleOnOpen()
+    protected void OnOpen()
     {
-        await OnOpen.InvokeAsync();
+        FileInfo fileToOpen = FileSystemInfo as FileInfo;
+        if (fileToOpen is not null)
+        {
+            // Process.Start()
+        }
+
+        DirectoryInfo directoryToOpen = FileSystemInfo as DirectoryInfo;
+        if (directoryToOpen is not null)
+        {
+            meddyExplorerState.CurrentDir = directoryToOpen;
+        }
     }
 }

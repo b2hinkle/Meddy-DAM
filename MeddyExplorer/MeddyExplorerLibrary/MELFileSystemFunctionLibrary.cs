@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Collections.ObjectModel;
+using System.Text;
 using System.Xml.Serialization;
 ﻿using MudBlazor;
 
@@ -42,7 +43,7 @@ namespace MeddyExplorerLibrary
 
             return string.Empty;
         }
-        public static string GetFileSystemInfoIcon(List<FileSystemInfo> inFileSystemInfos)
+        public static string GetFileSystemInfoIcon(ReadOnlyCollection<FileSystemInfo> inFileSystemInfos)
         {
             if (inFileSystemInfos.Any())
             {
@@ -56,7 +57,7 @@ namespace MeddyExplorerLibrary
         {
             return inFileSystemInfo.Name;
         }
-        public static string GetFileSystemInfoNameString(List<FileSystemInfo> inFileSystemInfos)
+        public static string GetFileSystemInfoNameString(ReadOnlyCollection<FileSystemInfo> inFileSystemInfos)
         {
             if (inFileSystemInfos.Any())
             {
@@ -70,7 +71,7 @@ namespace MeddyExplorerLibrary
         {
             return inFileSystemInfo.LastWriteTime.ToString("yyyy-MM-dd hh-mm-ss");
         }
-        public static string GetFileSystemInfoDateString(List<FileSystemInfo> inFileSystemInfos)
+        public static string GetFileSystemInfoDateString(ReadOnlyCollection<FileSystemInfo> inFileSystemInfos)
         {
             if (inFileSystemInfos.Any())
             {
@@ -98,7 +99,7 @@ namespace MeddyExplorerLibrary
 
             return string.Empty;
         }
-        public static string GetFileSystemInfoSizeString(List<FileSystemInfo> inFileSystemInfos)
+        public static string GetFileSystemInfoSizeString(ReadOnlyCollection<FileSystemInfo> inFileSystemInfos)
         {
             if (inFileSystemInfos.Any())
             {
@@ -123,7 +124,7 @@ namespace MeddyExplorerLibrary
 
             return string.Empty;
         }
-        public static string GetFileSystemInfoTypeString(List<FileSystemInfo> inFileSystemInfos)
+        public static string GetFileSystemInfoTypeString(ReadOnlyCollection<FileSystemInfo> inFileSystemInfos)
         {
             if (inFileSystemInfos.Any())
             {

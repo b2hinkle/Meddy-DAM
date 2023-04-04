@@ -6,7 +6,7 @@
     @foreach (FileSystemInfo file in meddyExplorerState.Files)
     {
         <MudItem>
-            <MEAFileSystemItem OnOpen="@(() => OnOpenFileSystemItem(file))">
+            <MEAFileSystemItem FileSystemInfo="@file">
                 <div class="d-flex flex-column align-center" style="width: 100px; max-height: 100px;">
                     <MudIcon Icon="@MELFileSystemFunctionLibrary.GetFileSystemInfoIcon(file)" Size="@Size.Large" />
                     <MudText Style="overflow-wrap: anywhere; overflow: hidden;" Typo="@Typo.body1" Align="@Align.Center">
@@ -33,20 +33,5 @@
     public void Dispose()
     {
         meddyExplorerState.OnCurrentDirChangedDelegate -= OnCurrentDirChange;
-    }
-
-    protected void OnOpenFileSystemItem(FileSystemInfo inFileSystemItem)
-    {
-        FileInfo clickedFile = inFileSystemItem as FileInfo;
-        if (clickedFile is not null)
-        {
-            // Process.Start
-        }
-
-        DirectoryInfo clickedDirectory = inFileSystemItem as DirectoryInfo;
-        if (clickedDirectory is not null)
-        {
-            meddyExplorerState.CurrentDir = clickedDirectory;
-        }
     }
 }

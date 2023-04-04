@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -50,20 +51,29 @@ namespace MeddyExplorerApp.Services
 
         public event EventHandler OnSelectedFilesChanged;
 
-        private List<FileSystemInfo> _selectedFiles;
-        public List<FileSystemInfo> SelectedFiles
+        protected List<FileSystemInfo> SelectedFiles { get; set; }
+
+        public ReadOnlyCollection<FileSystemInfo> GetSelectedFiles()
         {
-            get
+            return SelectedFiles.AsReadOnly();
+        }
+
+        public void AddToSelectedFiles(FileSystemInfo inFileSystemInfo)
+        {
+            SelectedFiles.Add(inFileSystemInfo);
+
+            if (OnSelectedFilesChanged is not null)
             {
-                return _selectedFiles;
+                OnSelectedFilesChanged.Invoke(this, EventArgs.Empty);
             }
-            set
+        }
+        public void RemoveFromSelectedFiles(FileSystemInfo inFileSystemInfo)
+        {
+            SelectedFiles.Remove(inFileSystemInfo);
+
+            if (OnSelectedFilesChanged is not null)
             {
-                _selectedFiles = value;
-                if (OnSelectedFilesChanged is not null)
-                {
-                    OnSelectedFilesChanged.Invoke(this, EventArgs.Empty);
-                }
+                OnSelectedFilesChanged.Invoke(this, EventArgs.Empty);
             }
         }
 
