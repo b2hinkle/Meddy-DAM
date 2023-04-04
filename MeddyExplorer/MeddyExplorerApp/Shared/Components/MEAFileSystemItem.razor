@@ -1,0 +1,54 @@
+﻿@using MudBlazor.Utilities
+
+<MudButton Class="@BuildClass()" OnClick="@((inMouseEventArgs) => HandleOnToggleSelect())" @ondblclick=@((inMouseEventArgs) => HandleOnOpen())>
+    @ChildContent
+</MudButton>
+
+@code
+{
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public string Class { get; set; }
+
+    protected string BuildClass()
+    {
+        return new CssBuilder()
+            .AddClass(Class)
+            .AddClass("mea-hover-transition-duration-none") // give responsive hover feedback
+            .AddClass("mea-file-system-item-selected", Selected) // add the this class when selected
+            .Build();
+    }
+
+    // TODO: Make this a public parameter
+    protected bool Selected { get; set; } = false;
+
+    [Parameter]
+    public EventCallback OnSelect { get; set; }
+
+    [Parameter]
+    public EventCallback OnDeselect { get; set; }
+
+    protected async Task HandleOnToggleSelect()
+    {
+        Selected = !Selected;
+
+        if (Selected)
+        {
+            await OnSelect.InvokeAsync();
+        }
+        else
+        {
+            await OnDeselect.InvokeAsync();
+        }
+    }
+
+    [Parameter]
+    public EventCallback OnOpen { get; set; }
+
+    protected async Task HandleOnOpen()
+    {
+        await OnOpen.InvokeAsync();
+    }
+}
