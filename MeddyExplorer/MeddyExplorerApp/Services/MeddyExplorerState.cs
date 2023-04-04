@@ -76,23 +76,31 @@ namespace MeddyExplorerApp.Services
                 OnSelectedFilesChanged.Invoke(this, EventArgs.Empty);
             }
         }
+        public void ClearSelectedFiles()
+        {
+            SelectedFiles.Clear();
+
+            if (OnSelectedFilesChanged is not null)
+            {
+                OnSelectedFilesChanged.Invoke(this, EventArgs.Empty);
+            }
+        }
 
         // To be called from the component
         public void Initialize(string inRootDir)
         {
             OnCurrentDirChangedDelegate += OnCurrentDirChanged;
             RootDir = new DirectoryInfo(inRootDir);
+            SelectedFiles = new List<FileSystemInfo>();
             App.persistentData.AddNewRecentMeddyProject(RootDir);
             CurrentDir = RootDir;
-            SelectedFiles = new();
         }
 
         protected void OnCurrentDirChanged(DirectoryInfo inOldRootDir, DirectoryInfo inNewRootDir)
         {
             MELFileSystemFunctionLibrary.PopulateFileSystemInfoList(Files, CurrentDir.FullName);
+            ClearSelectedFiles();
         }
-
-
 
         public void Dispose()
         {
