@@ -1,5 +1,6 @@
 ﻿@using Services
 @inject MeddyExplorerState meddyExplorerState
+@implements IDisposable
 
 <div class="mud-width-full mud-height-full pa-3">
     @if (meddyExplorerState.SelectedFiles.Any())
@@ -35,5 +36,10 @@
     protected void OnSelectedFilesChanged(object sender, EventArgs e)
     {
         StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        meddyExplorerState.OnSelectedFilesChanged -= OnSelectedFilesChanged;
     }
 }
