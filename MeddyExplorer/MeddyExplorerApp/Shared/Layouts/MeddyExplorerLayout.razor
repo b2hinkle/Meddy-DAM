@@ -4,8 +4,8 @@
 @inject MeddyExplorerState meddyExplorerState
 
 <MudLayout>
-    <AppBar OnToggleDrawerClickedEvent="@(() => meddyExplorerState.DrawerOpen = !meddyExplorerState.DrawerOpen)" />
-    <NavMenuDrawer DrawerOpen="@meddyExplorerState.DrawerOpen" />
+    <MEAMeddyExplorerAppBar OnToggleDrawerClickedEvent="@(() => meddyExplorerState.DrawerOpen = !meddyExplorerState.DrawerOpen)" />
+    <MEAMeddyExplorerDrawer DrawerOpen="@meddyExplorerState.DrawerOpen" />
     <MudMainContent>
         @Body
     </MudMainContent>
