@@ -10,25 +10,6 @@ namespace MeddyExplorerLibrary
     /// </summary>
     public static class MELFileSystemFunctionLibrary
     {
-        public static void PopulateFileSystemInfoList(List<FileSystemInfo> inFileSystemInfos, string inPath, bool inClearBeforehand = true)
-        {
-            if (inClearBeforehand)
-            {
-                inFileSystemInfos.Clear();
-            }
-            string[] subfolderPaths = Directory.GetDirectories(inPath); // during testing I got an exception "Access to the path D:/Recovery not authorized" or something like that. Maybe we should try/catch
-            foreach (string subfolderPath in subfolderPaths)
-            {
-                inFileSystemInfos.Add(new DirectoryInfo(subfolderPath));
-            }
-
-            string[] filePaths = Directory.GetFiles(inPath);
-            foreach (string filePath in filePaths)
-            {
-                inFileSystemInfos.Add(new FileInfo(filePath));
-            }
-        }
-
         public static string GetFileSystemInfoIcon(FileSystemInfo inFileSystemInfo)
         {
             if (inFileSystemInfo is FileInfo)

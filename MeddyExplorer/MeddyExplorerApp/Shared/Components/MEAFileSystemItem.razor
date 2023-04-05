@@ -151,6 +151,12 @@
             meddyExplorerState.AdditiveSelectFile(FileSystemInfo);
             return;
         }
+
+        if (e.Key == "Enter")
+        {
+            Open();
+            return;
+        }
     }
 
     protected void OnFocus(FocusEventArgs e)

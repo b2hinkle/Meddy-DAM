@@ -13,6 +13,25 @@ namespace MeddyExplorerApp.Services
     {
         public List<FileSystemInfo> Files { get; set; } = new();
 
+        public event EventHandler OnIncludeMeddydataFilesChangedEvent;
+        private bool _includeMeddydataFiles;
+        public bool IncludeMeddydataFiles
+        {
+            get
+            {
+                return _includeMeddydataFiles;
+            }
+            set
+            {
+                _includeMeddydataFiles = value;
+
+                if (OnIncludeMeddydataFilesChangedEvent is not null)
+                {
+                    OnIncludeMeddydataFilesChangedEvent.Invoke(this, EventArgs.Empty);
+                }
+            }
+        }
+
         public bool DrawerOpen = false;
 
         public delegate void DirectoryParametersDelegate(DirectoryInfo in1, DirectoryInfo in2);
@@ -137,16 +156,61 @@ namespace MeddyExplorerApp.Services
         public void Initialize(string inRootDir)
         {
             OnCurrentDirChangedDelegate += OnCurrentDirChanged;
+            OnIncludeMeddydataFilesChangedEvent += OnIncludeMeddydataFilesChanged;
             RootDir = new DirectoryInfo(inRootDir);
             SelectedFiles = new List<FileSystemInfo>();
             App.persistentData.AddNewRecentMeddyProject(RootDir);
             CurrentDir = RootDir;
         }
 
+        public void PopulateFiles()
+        {
+            Files.Clear();
+
+            string[] subfolderPaths = Directory.GetDirectories(CurrentDir.FullName); // during testing I got an exception "Access to the path D:/Recovery not authorized" or something like that. Maybe we should try/catch
+            foreach (string subfolderPath in subfolderPaths)
+            {
+                Files.Add(new DirectoryInfo(subfolderPath));
+            }
+
+            string[] filePaths = Directory.GetFiles(CurrentDir.FullName);
+            foreach (string filePath in filePaths)
+            {
+                if (!IncludeMeddydataFiles)
+                {
+                    // See if this is a meddydata file
+#nullable enable
+                    string? CorrespondingFilePath = MeddyFunctionLibrary.GetFilePathFromMeddydataSidecarPath(filePath);
+                    if (CorrespondingFilePath != null)
+#nullable disable
+                    {
+                        if (filePaths.Contains(CorrespondingFilePath))
+                        {
+                            // We are a meddydata file
+                            continue;
+                        }
+
+                        if (MeddyFunctionLibrary.FilePathsAreEqual(CurrentDir.FullName, CorrespondingFilePath))
+                        {
+                            // We are a meddydata file
+                            continue;
+                        }
+                    }
+                }
+
+                Files.Add(new FileInfo(filePath));
+            }
+        }
+
         protected void OnCurrentDirChanged(DirectoryInfo inOldRootDir, DirectoryInfo inNewRootDir)
         {
-            MELFileSystemFunctionLibrary.PopulateFileSystemInfoList(Files, CurrentDir.FullName);
+            PopulateFiles();
             ClearSelectedFiles();
+        }
+
+        protected void OnIncludeMeddydataFilesChanged(object sender, EventArgs e)
+        {
+            PopulateFiles();
         }
 
         public void Dispose()
