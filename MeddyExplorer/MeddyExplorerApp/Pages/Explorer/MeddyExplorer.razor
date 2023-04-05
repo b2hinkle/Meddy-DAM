@@ -1,17 +1,22 @@
 ﻿@* navigating to this component requires you to pass in a root directory through the url *@
 @page "/meddy-explorer/{*rootDir}"
+@layout MainLayout
+@using MeddyExplorerApp.Pages.Explorer
 @using MeddyExplorerApp.Services;
 @inject MeddyExplorerState meddyExplorerState
 
+<MudLayout>
+    <MEAMeddyExplorerAppBar OnToggleDrawerClickedEvent="@(() => meddyExplorerState.DrawerOpen = !meddyExplorerState.DrawerOpen)" />
+    <MEAMeddyExplorerDrawer DrawerOpen="@meddyExplorerState.DrawerOpen" />
 
+    <MudMainContent>
+        <MEAFileSystemNavigator />
+    </MudMainContent>
 
-<MEACurrentDirTextField />
-<MEACurrentDirFilesGrid />
-
-@* Details Panel *@
-<MudDrawer Anchor="@Anchor.End" ClipMode="@DrawerClipMode.Docked" Open="true">
-    <MEAFileDetails />
-</MudDrawer>
+    <MudDrawer Anchor="@Anchor.End" ClipMode="@DrawerClipMode.Docked" Open="true">
+        <MEAFileDetails />
+    </MudDrawer>
+</MudLayout>
 
 @code
 {
