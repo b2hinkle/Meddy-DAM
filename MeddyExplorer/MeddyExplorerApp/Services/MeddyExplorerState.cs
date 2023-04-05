@@ -32,8 +32,6 @@ namespace MeddyExplorerApp.Services
             }
         }
 
-        public bool DrawerOpen = false;
-
         public delegate void DirectoryParametersDelegate(DirectoryInfo in1, DirectoryInfo in2);
         public event DirectoryParametersDelegate OnRootDirChangedDelegate;
         public event DirectoryParametersDelegate OnCurrentDirChangedDelegate;

@@ -6,16 +6,13 @@
 @inject MeddyExplorerState meddyExplorerState
 
 <MudLayout>
-    <MEAMeddyExplorerAppBar OnToggleDrawerClickedEvent="@(() => meddyExplorerState.DrawerOpen = !meddyExplorerState.DrawerOpen)" />
-    <MEAMeddyExplorerDrawer DrawerOpen="@meddyExplorerState.DrawerOpen" />
+    <MEAApplicationToolbarButtons /> @* overlayed toolbar to achieve a sort of combined bar of buttons (combining with panels' toolbars) *@
+    <MEAQuickNavigationPanel />
+    <MEADetailsPanel />
 
-    <MudMainContent>
+    <MudMainContent Class="pa-0"> @* zero padding so that the contents don't use the AppBar's padding *@
         <MEAFileSystemNavigator />
     </MudMainContent>
-
-    <MudDrawer Anchor="@Anchor.End" ClipMode="@DrawerClipMode.Docked" Open="true">
-        <MEAFileDetails />
-    </MudDrawer>
 </MudLayout>
 
 @code
