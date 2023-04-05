@@ -1,27 +1,25 @@
 ﻿@using Services
 @inject MeddyExplorerState meddyExplorerState
 @implements IDisposable
+@using System.Collections.ObjectModel;
 
 <div class="mud-width-full mud-height-full pa-3">
-    @if (meddyExplorerState.GetSelectedFiles().Any())
-    {
-        <div class="mud-width-full d-flex align-center justify-center" style="aspect-ratio: 1;">
-            <MudIcon Icon="@MELFileSystemFunctionLibrary.GetFileSystemInfoIcon(meddyExplorerState.GetSelectedFiles())" Size="@Size.Large" />
-        </div>
-        <MudTextField T="string" Text="@MELFileSystemFunctionLibrary.GetFileSystemInfoNameString(meddyExplorerState.GetSelectedFiles())" Margin="@Margin.Dense" Variant="@Variant.Outlined" />
-        <MudText Typo="@Typo.h5">
-            Details
-        </MudText>
-        <MudText Typo="@Typo.body1">
-            Date: @MELFileSystemFunctionLibrary.GetFileSystemInfoDateString(meddyExplorerState.GetSelectedFiles())
-        </MudText>
-        <MudText Typo="@Typo.body1">
-            Type: @MELFileSystemFunctionLibrary.GetFileSystemInfoTypeString(meddyExplorerState.GetSelectedFiles())
-        </MudText>
-        <MudText Typo="@Typo.body1">
-            Size: @MELFileSystemFunctionLibrary.GetFileSystemInfoSizeString(meddyExplorerState.GetSelectedFiles())
-        </MudText>
-    }
+    <div class="mud-width-full d-flex align-center justify-center" style="aspect-ratio: 1;">
+        <MudIcon Icon="@MELFileSystemFunctionLibrary.GetFileSystemInfoIcon(GetFileSystemInfos())" Size="@Size.Large" />
+    </div>
+    <MudTextField T="string" Text="@MELFileSystemFunctionLibrary.GetFileSystemInfoNameString(GetFileSystemInfos())" Margin="@Margin.Dense" Variant="@Variant.Outlined" />
+    <MudText Typo="@Typo.h5">
+        Details
+    </MudText>
+    <MudText Typo="@Typo.body1">
+        Date: @MELFileSystemFunctionLibrary.GetFileSystemInfoDateString(GetFileSystemInfos())
+    </MudText>
+    <MudText Typo="@Typo.body1">
+        Type: @MELFileSystemFunctionLibrary.GetFileSystemInfoTypeString(GetFileSystemInfos())
+    </MudText>
+    <MudText Typo="@Typo.body1">
+        Size: @MELFileSystemFunctionLibrary.GetFileSystemInfoSizeString(GetFileSystemInfos())
+    </MudText>
 </div>
 
 @code
@@ -41,5 +39,17 @@
     public void Dispose()
     {
         meddyExplorerState.OnSelectedFilesChanged -= OnSelectedFilesChanged;
+    }
+
+    protected ReadOnlyCollection<FileSystemInfo> GetFileSystemInfos()
+    {
+        if (meddyExplorerState.GetSelectedFiles().Any())
+        {
+            return meddyExplorerState.GetSelectedFiles();
+        }
+
+        List<FileSystemInfo> CurrentDirAsList = new();
+        CurrentDirAsList.Add(meddyExplorerState.CurrentDir);
+        return new ReadOnlyCollection<FileSystemInfo>(CurrentDirAsList);
     }
 }
