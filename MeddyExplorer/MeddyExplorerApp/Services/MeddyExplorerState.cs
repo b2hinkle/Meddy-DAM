@@ -13,8 +13,6 @@ namespace MeddyExplorerApp.Services
     {
         public List<FileSystemInfo> Files { get; set; } = new();
 
-        public bool DrawerOpen = false;
-
         public delegate void DirectoryParametersDelegate(DirectoryInfo in1, DirectoryInfo in2);
         public event DirectoryParametersDelegate OnRootDirChangedDelegate;
         public event DirectoryParametersDelegate OnCurrentDirChangedDelegate;

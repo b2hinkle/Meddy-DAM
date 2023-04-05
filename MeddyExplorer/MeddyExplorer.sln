@@ -8,7 +8,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeddyLibrary", "..\MeddyLib
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MudBlazorExtensionLibrary", "..\MudBlazorExtension\MudBlazorExtension\MudBlazorExtensionLibrary\MudBlazorExtensionLibrary.csproj", "{ABCDC288-2ADF-44CB-8207-31DC82B27B3D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeddyExplorerLibrary", "MeddyExplorerLibrary\MeddyExplorerLibrary.csproj", "{74901945-C1F9-4115-9F4F-5A3D65A00EF6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeddyExplorerLibrary", "MeddyExplorerLibrary\MeddyExplorerLibrary.csproj", "{74901945-C1F9-4115-9F4F-5A3D65A00EF6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,7 +39,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {5791BBF5-76AF-4333-AEC9-D65ACFBDCC8E}
 		        SolutionGuid = {61F7FB11-1E47-470C-91E2-47F8143E1572}
+		SolutionGuid = {5791BBF5-76AF-4333-AEC9-D65ACFBDCC8E}
 	EndGlobalSection
 EndGlobal

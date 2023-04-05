@@ -1,28 +1,41 @@
-﻿<MudDrawer @bind-Open="@DrawerOpen" ClipMode="@DrawerClipMode.Always" Elevation="0" Variant="@DrawerVariant.Responsive">
-    <MudDrawerHeader>
-        <MudText Typo="@Typo.h6">Meddy Explorer</MudText>
-    </MudDrawerHeader>
-    <MudNavMenu>
-        <MudNavLink Match="@NavLinkMatch.All">
-            <MudText Typo="@Typo.body1">
-                Store
-            </MudText>
-        </MudNavLink>
-        <MudNavLink Match="@NavLinkMatch.All">
-            <MudText Typo="@Typo.body1">
-                Library
-            </MudText>
-        </MudNavLink>
-        <MudNavLink Match="@NavLinkMatch.All">
-            <MudText Typo="@Typo.body1">
-                Community
-            </MudText>
-        </MudNavLink>
-    </MudNavMenu>
+﻿<MudDrawer Color="Color.Dark" Elevation="0" Variant="@DrawerVariant.Mini" MiniWidth="5px;" @bind-Open="@Open" @onclick="@OnClickDrawer">
+    @if (Open)
+    {
+        <MudToolBar DisableGutters="true" Dense="true">
+            <MudSpacer />
+            <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Filled.Add" OnClick="@OnAddButtonClick" />
+        </MudToolBar>
+        <MudNavMenu>
+            <MudNavLink Match="@NavLinkMatch.All">
+                <MudText Typo="@Typo.body1">
+                    Store
+                </MudText>
+            </MudNavLink>
+            <MudNavLink Match="@NavLinkMatch.All">
+                <MudText Typo="@Typo.body1">
+                    Library
+                </MudText>
+            </MudNavLink>
+            <MudNavLink Match="@NavLinkMatch.All">
+                <MudText Typo="@Typo.body1">
+                    Community
+                </MudText>
+            </MudNavLink>
+        </MudNavMenu>
+    }
 </MudDrawer>
 
 @code
 {
-    [Parameter]
-    public bool DrawerOpen { get; set; }
+    public bool Open { get; set; }
+
+    private void OnAddButtonClick()
+    {
+
+    }
+
+    private void OnClickDrawer()
+    {
+        Open = !Open;
+    }
 }

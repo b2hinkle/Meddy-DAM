@@ -1,43 +1,26 @@
 ﻿@using MeddyExplorerApp.Services;
 @inject MeddyExplorerState meddyExplorerState
 
-<MudAppBar Dense="true" Color="@Color.Transparent" Elevation="0">
-    <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="@Color.Inherit" Edge="@Edge.Start" OnClick="@(() => OnToggleDrawerClickedEvent.InvokeAsync())" />
-    <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Filled.KeyboardArrowLeft" OnClick="@OnBackButtonClick" />
-    <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Filled.KeyboardArrowRight" OnClick="@OnForwardButtonClick" />
-    <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Filled.ArrowUpward" OnClick="@OnUpButtonClick" />
+<MudToolBar Class="pointer-events-none" Style="position:fixed; top:0; right:0; left:0; z-index:99999;" Dense="true">
     <MudSpacer />
     <!-- End buttons -->
-    <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Filled.Minimize" OnClick="@OnMinimizeButtonClick" />
-    @if (!isMaximized)
-    {
-        <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Filled.Maximize" OnClick="@OnMaximizeButtonClick" />
-    }
-    else
-    {
-        <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Filled.Restore" OnClick="@OnRestoreDownButtonClick" />
-    }
-    <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Filled.Close" OnClick="@OnCloseButtonClick" Edge="@Edge.End" /> <!-- use Edge.End to align the icon (instead of the outer button) to the end edge -->
-</MudAppBar>
+    <div class="pointer-events-auto"> @* clickable elements *@
+        <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Filled.Minimize" OnClick="@OnMinimizeButtonClick" />
+        @if (!isMaximized)
+        {
+            <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Filled.Maximize" OnClick="@OnMaximizeButtonClick" />
+        }
+        else
+        {
+            <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Filled.Restore" OnClick="@OnRestoreDownButtonClick" />
+        }
+        <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Filled.Close" OnClick="@OnCloseButtonClick" Edge="@Edge.End" /> <!-- use Edge.End to align the icon (instead of the outer button) to the end edge -->
+    </div>
+</MudToolBar>
 
 @code
 {
-    [Parameter]
-    public EventCallback OnToggleDrawerClickedEvent { get; set; }
-
     public bool isMaximized { get; set; }
-    private void OnUpButtonClick()
-    {
-        meddyExplorerState.CurrentDir = meddyExplorerState.CurrentDir.Parent;
-    }
-    private void OnBackButtonClick()
-    {
-        
-    }
-    private void OnForwardButtonClick()
-    {
-        
-    }
     private void OnCloseButtonClick()
     {
         

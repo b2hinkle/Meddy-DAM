@@ -1,0 +1,19 @@
+﻿<MudDrawer Color="Color.Dark" Anchor="@Anchor.End" Variant="@DrawerVariant.Mini" MiniWidth="5px;" @bind-Open="@Open" @onclick="@OnClickDrawer">
+    @if (Open)
+    {
+        <MudToolBar DisableGutters="true" Dense="true">
+            <MudSpacer />
+        </MudToolBar>
+        <MEAFileDetails />
+    }
+</MudDrawer>
+
+@code 
+{
+    public bool Open { get; set; }
+
+    private void OnClickDrawer()
+    {
+        Open = !Open;
+    }
+}
