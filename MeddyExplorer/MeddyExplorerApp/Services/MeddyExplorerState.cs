@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MeddyExplorerApp.Services
 {
-    internal class MeddyExplorerState : IDisposable
+    public class MeddyExplorerState : IDisposable
     {
         public List<FileSystemInfo> Files { get; set; } = new();
 
@@ -52,21 +52,21 @@ namespace MeddyExplorerApp.Services
         public event EventHandler<FileSystemInfo> OnFileTargeted;
         public event EventHandler<FileSystemInfo> OnFileUntargeted;
 
-        private FileSystemInfo _targetFile;
+        private FileSystemInfo _targetedFile;
         /// <summary>
         /// The file system item that the user has targeted.
         /// Not necessarily selected.
         /// </summary>
-        public FileSystemInfo TargetFile
+        public FileSystemInfo TargetedFile
         {
             get
             {
-                return _targetFile;
+                return _targetedFile;
             }
             set
             {
-                FileSystemInfo oldValue = _targetFile;
-                _targetFile = value;
+                FileSystemInfo oldValue = _targetedFile;
+                _targetedFile = value;
 
                 if (OnFileUntargeted is not null)
                 {
@@ -77,9 +77,9 @@ namespace MeddyExplorerApp.Services
                 }
                 if (OnFileTargeted is not null)
                 {
-                    if (_targetFile is not null)
+                    if (_targetedFile is not null)
                     {
-                        OnFileTargeted.Invoke(this, _targetFile);
+                        OnFileTargeted.Invoke(this, _targetedFile);
                     }
                 }
             }

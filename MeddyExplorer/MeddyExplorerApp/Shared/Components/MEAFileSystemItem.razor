@@ -95,28 +95,6 @@
         meddyExplorerState.OnFileDeselected -= OnFileDeselected;
     }
 
-    protected void Select()
-    {
-        meddyExplorerState.AddToSelectedFiles(FileSystemInfo);
-    }
-
-    protected void Deselect()
-    {
-        meddyExplorerState.RemoveFromSelectedFiles(FileSystemInfo);
-    }
-
-    protected void ToggleSelected()
-    {
-        if (!Selected)
-        {
-            Select();
-        }
-        else
-        {
-            Deselect();
-        }
-    }
-
     protected void Open()
     {
         FileInfo fileToOpen = FileSystemInfo as FileInfo;
@@ -136,23 +114,21 @@
     {
         if (e.CtrlKey && e.ShiftKey)
         {
-            return;
+
         }
 
         if (e.CtrlKey)
         {
-            ToggleSelected();
+            meddyExplorerState.AdditiveToggleSelectFile(FileSystemInfo);
             return;
         }
 
         if (e.ShiftKey)
         {
-            return;
+
         }
 
-        // Default exclusive select
-        meddyExplorerState.ClearSelectedFiles();
-        Select();
+        meddyExplorerState.ExclusiveSelectFile(FileSystemInfo);
     }
 
     protected void OnDblClick(MouseEventArgs e)
@@ -162,11 +138,21 @@
 
     protected void OnKeyDown(KeyboardEventArgs e)
     {
+        if (e.Key == " ")
+        {
+            if (e.CtrlKey)
+            {
+                meddyExplorerState.AdditiveToggleSelectFile(FileSystemInfo);
+                return;
+            }
 
+            meddyExplorerState.AdditiveSelectFile(FileSystemInfo);
+            return;
+        }
     }
 
     protected void OnFocus(FocusEventArgs e)
     {
-        meddyExplorerState.TargetFile = FileSystemInfo;
+        meddyExplorerState.TargetFile(FileSystemInfo);
     }
 }
