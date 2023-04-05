@@ -3,7 +3,7 @@
 @inject MeddyExplorerState meddyExplorerState
 @implements IDisposable
 
-<MudButton Class="@BuildClass()" OnClick="@OnClick" @ondblclick=@OnDblClick @onkeydown=@OnKeyDown>
+<MudButton Class="@BuildClass()" OnClick="@OnClick" @ondblclick=@OnDblClick @onkeydown=@OnKeyDown @onfocus=@OnFocus>
     @ChildContent
 </MudButton>
 
@@ -19,27 +19,24 @@
     {
         return new CssBuilder()
             .AddClass(Class)
-            .AddClass("mbel-hover-transition-duration-none") // give responsive hover feedback
+            .AddClass("mae-file-system-item")
             .AddClass("mae-file-system-item-selected", Selected) // add selected class when selected
+            .AddClass("mae-file-system-item-targeted", Targeted) // add targeted class when targeted
             .Build();
     }
 
     [Parameter]
     public FileSystemInfo FileSystemInfo { get; set; }
 
-    [Parameter]
-    public EventCallback OnSelect { get; set; }
-
-    [Parameter]
-    public EventCallback OnDeselect { get; set; }
-
-    [Parameter]
-    public EventCallback OnOpen { get; set; }
-
     /// <summary>
     /// Cached value of whether we are selected or not.
     /// </summary>
     protected bool Selected { get; set; } = false;
+
+    /// <summary>
+    /// Cached value of whether we are the targeted or not.
+    /// </summary>
+    protected bool Targeted { get; set; } = false;
 
     protected override void OnInitialized()
     {
@@ -49,6 +46,9 @@
 
         meddyExplorerState.OnFileSelected += OnFileSelected;
         meddyExplorerState.OnFileDeselected += OnFileDeselected;
+
+        meddyExplorerState.OnFileTargeted += OnFileTargeted;
+        meddyExplorerState.OnFileUntargeted += OnFileUntargeted;
     }
 
     protected void OnFileSelected(object sender, FileSystemInfo inFileSystemInfo)
@@ -57,18 +57,34 @@
         {
             // We have been selected, update ourselves
             Selected = true;
-            OnSelect.InvokeAsync();
             StateHasChanged();
         }
     }
-
     protected void OnFileDeselected(object sender, FileSystemInfo inFileSystemInfo)
     {
         if (inFileSystemInfo == FileSystemInfo)
         {
             // We have been deselected, update ourselves
             Selected = false;
-            OnDeselect.InvokeAsync();
+            StateHasChanged();
+        }
+    }
+
+    protected void OnFileTargeted(object sender, FileSystemInfo inFileSystemInfo)
+    {
+        if (inFileSystemInfo == FileSystemInfo)
+        {
+            // We have been targeted, update ourselves
+            Targeted = true;
+            StateHasChanged();
+        }
+    }
+    protected void OnFileUntargeted(object sender, FileSystemInfo inFileSystemInfo)
+    {
+        if (inFileSystemInfo == FileSystemInfo)
+        {
+            // We have been untargeted, update ourselves
+            Targeted = false;
             StateHasChanged();
         }
     }
@@ -114,8 +130,6 @@
         {
             meddyExplorerState.CurrentDir = directoryToOpen;
         }
-
-        OnOpen.InvokeAsync();
     }
 
     protected void OnClick(MouseEventArgs e)
@@ -149,5 +163,10 @@
     protected void OnKeyDown(KeyboardEventArgs e)
     {
 
+    }
+
+    protected void OnFocus(FocusEventArgs e)
+    {
+        meddyExplorerState.TargetFile = FileSystemInfo;
     }
 }

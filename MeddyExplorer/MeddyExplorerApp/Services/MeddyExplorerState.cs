@@ -49,10 +49,49 @@ namespace MeddyExplorerApp.Services
             }
         }
 
+        public event EventHandler<FileSystemInfo> OnFileTargeted;
+        public event EventHandler<FileSystemInfo> OnFileUntargeted;
+
+        private FileSystemInfo _targetFile;
+        /// <summary>
+        /// The file system item that the user has targeted.
+        /// Not necessarily selected.
+        /// </summary>
+        public FileSystemInfo TargetFile
+        {
+            get
+            {
+                return _targetFile;
+            }
+            set
+            {
+                FileSystemInfo oldValue = _targetFile;
+                _targetFile = value;
+
+                if (OnFileUntargeted is not null)
+                {
+                    if (oldValue is not null)
+                    {
+                        OnFileUntargeted.Invoke(this, oldValue);
+                    }
+                }
+                if (OnFileTargeted is not null)
+                {
+                    if (_targetFile is not null)
+                    {
+                        OnFileTargeted.Invoke(this, _targetFile);
+                    }
+                }
+            }
+        }
+
         public event EventHandler OnSelectedFilesChanged;
         public event EventHandler<FileSystemInfo> OnFileSelected;
         public event EventHandler<FileSystemInfo> OnFileDeselected;
 
+        /// <summary>
+        /// List of file system items that the user has selected.
+        /// </summary>
         protected List<FileSystemInfo> SelectedFiles { get; set; }
 
         public ReadOnlyCollection<FileSystemInfo> GetSelectedFiles()
