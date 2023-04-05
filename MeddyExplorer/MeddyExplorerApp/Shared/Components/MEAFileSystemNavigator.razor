@@ -5,6 +5,7 @@
     <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Filled.KeyboardArrowLeft" OnClick="@OnBackButtonClick" />
     <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Filled.KeyboardArrowRight" OnClick="@OnForwardButtonClick" />
     <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Filled.ArrowUpward" OnClick="@OnUpButtonClick" />
+    <MudText>@meddyExplorerState?.CurrentDir?.Name</MudText>
     <MudSpacer />
 </MudToolBar>
 
@@ -13,6 +14,16 @@
 
 @code
 {
+
+    protected override void OnInitialized()
+    {
+        meddyExplorerState.OnCurrentDirChangedDelegate += OnCurrentDirChange;
+    }
+    public void OnCurrentDirChange(DirectoryInfo inOldCurrentDir, DirectoryInfo inNewCurrentDir)
+    {
+        StateHasChanged();
+    }
+
     private void OnUpButtonClick()
     {
         meddyExplorerState.CurrentDir = meddyExplorerState.CurrentDir.Parent;
