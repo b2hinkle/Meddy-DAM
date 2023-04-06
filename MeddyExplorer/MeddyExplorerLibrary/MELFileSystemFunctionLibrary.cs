@@ -50,7 +50,7 @@ namespace MeddyExplorerLibrary
 
         public static string GetFileSystemInfoDateString(FileSystemInfo inFileSystemInfo)
         {
-            return inFileSystemInfo.LastWriteTime.ToString("yyyy-MM-dd hh-mm-ss");
+            return inFileSystemInfo.LastWriteTime.ToString("yyyy-MM-dd hh:mm:ss");
         }
         public static string GetFileSystemInfoDateString(ReadOnlyCollection<FileSystemInfo> inFileSystemInfos)
         {
