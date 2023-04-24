@@ -32,9 +32,8 @@ namespace MeddyExplorerApp.Services
             }
         }
 
-        public delegate void DirectoryParametersDelegate(DirectoryInfo in1, DirectoryInfo in2);
-        public event DirectoryParametersDelegate OnRootDirChangedDelegate;
-        public event DirectoryParametersDelegate OnCurrentDirChangedDelegate;
+        public event Action<DirectoryInfo, DirectoryInfo> OnRootDirChangedDelegate;
+        public event Action<DirectoryInfo, DirectoryInfo> OnCurrentDirChangedDelegate;
         private DirectoryInfo _rootDir { get; set; }
         public DirectoryInfo RootDir
         {
