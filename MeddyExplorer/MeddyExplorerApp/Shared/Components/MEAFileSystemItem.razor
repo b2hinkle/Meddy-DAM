@@ -51,7 +51,7 @@
         meddyExplorerState.OnFileUntargeted += OnFileUntargeted;
     }
 
-    protected void OnFileSelected(object sender, FileSystemInfo inFileSystemInfo)
+    protected void OnFileSelected(FileSystemInfo inFileSystemInfo)
     {
         if (inFileSystemInfo == FileSystemInfo)
         {
@@ -60,7 +60,7 @@
             StateHasChanged();
         }
     }
-    protected void OnFileDeselected(object sender, FileSystemInfo inFileSystemInfo)
+    protected void OnFileDeselected(FileSystemInfo inFileSystemInfo)
     {
         if (inFileSystemInfo == FileSystemInfo)
         {
@@ -70,7 +70,7 @@
         }
     }
 
-    protected void OnFileTargeted(object sender, FileSystemInfo inFileSystemInfo)
+    protected void OnFileTargeted(FileSystemInfo inFileSystemInfo)
     {
         if (inFileSystemInfo == FileSystemInfo)
         {
@@ -79,7 +79,7 @@
             StateHasChanged();
         }
     }
-    protected void OnFileUntargeted(object sender, FileSystemInfo inFileSystemInfo)
+    protected void OnFileUntargeted(FileSystemInfo inFileSystemInfo)
     {
         if (inFileSystemInfo == FileSystemInfo)
         {
