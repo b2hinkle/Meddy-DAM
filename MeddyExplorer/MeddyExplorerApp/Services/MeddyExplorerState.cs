@@ -13,25 +13,6 @@ namespace MeddyExplorerApp.Services
     {
         public List<FileSystemInfo> Files { get; set; } = new();
 
-        public event Action OnIncludeMeddydataFilesChangedEvent;
-        private bool _includeMeddydataFiles;
-        public bool IncludeMeddydataFiles
-        {
-            get
-            {
-                return _includeMeddydataFiles;
-            }
-            set
-            {
-                _includeMeddydataFiles = value;
-
-                if (OnIncludeMeddydataFilesChangedEvent is not null)
-                {
-                    OnIncludeMeddydataFilesChangedEvent.Invoke();
-                }
-            }
-        }
-
         public event Action<DirectoryInfo, DirectoryInfo> OnRootDirChangedDelegate;
         public event Action<DirectoryInfo, DirectoryInfo> OnCurrentDirChangedDelegate;
         private DirectoryInfo _rootDir { get; set; }
@@ -153,7 +134,6 @@ namespace MeddyExplorerApp.Services
         public void Initialize(string inRootDir)
         {
             OnCurrentDirChangedDelegate += OnCurrentDirChanged;
-            OnIncludeMeddydataFilesChangedEvent += OnIncludeMeddydataFilesChanged;
             RootDir = new DirectoryInfo(inRootDir);
             SelectedFiles = new List<FileSystemInfo>();
             App.persistentData.AddNewRecentMeddyProject(RootDir);
@@ -173,28 +153,6 @@ namespace MeddyExplorerApp.Services
             string[] filePaths = Directory.GetFiles(CurrentDir.FullName);
             foreach (string filePath in filePaths)
             {
-                if (!IncludeMeddydataFiles)
-                {
-                    // See if this is a meddydata file
-#nullable enable
-                    string? CorrespondingFilePath = MeddyFunctionLibrary.GetFilePathFromMeddydataSidecarPath(filePath);
-                    if (CorrespondingFilePath != null)
-#nullable disable
-                    {
-                        if (filePaths.Contains(CorrespondingFilePath))
-                        {
-                            // We are a meddydata file
-                            continue;
-                        }
-
-                        if (MeddyFunctionLibrary.FilePathsAreEqual(CurrentDir.FullName, CorrespondingFilePath))
-                        {
-                            // We are a meddydata file
-                            continue;
-                        }
-                    }
-                }
-
                 Files.Add(new FileInfo(filePath));
             }
         }
@@ -203,11 +161,6 @@ namespace MeddyExplorerApp.Services
         {
             PopulateFiles();
             ClearSelectedFiles();
-        }
-
-        protected void OnIncludeMeddydataFilesChanged()
-        {
-            PopulateFiles();
         }
 
         public void Dispose()
