@@ -24,7 +24,7 @@ public static class MauiProgram
         builder.Services.AddMauiBlazorWebView();
         builder.Services.AddMudServices();
 		builder.Services.AddScoped<MBELLayoutService>();
-		builder.Services.AddScoped<MeddyExplorerState>();
+		builder.Services.AddScoped<MeddyExplorerService>();
 
 #if DEBUG
         builder.Services.AddBlazorWebViewDeveloperTools();

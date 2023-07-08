@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MeddyExplorerApp.Services
 {
-    public class MeddyExplorerState : IDisposable
+    public class MeddyExplorerService : IDisposable
     {
         public List<FileSystemInfo> Files { get; set; } = new();
 

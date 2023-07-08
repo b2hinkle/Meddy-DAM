@@ -3,7 +3,7 @@
 @layout MainLayout
 @using MeddyExplorerApp.Pages.Explorer
 @using MeddyExplorerApp.Services;
-@inject MeddyExplorerState meddyExplorerState
+@inject MeddyExplorerService meddyExplorerService
 
 <MudLayout>
     <MEAApplicationToolbarButtons /> @* overlayed toolbar to achieve a sort of combined bar of buttons (combining with panels' toolbars) *@
@@ -22,6 +22,6 @@
 
     protected override void OnInitialized()
     {
-        meddyExplorerState.Initialize(rootDir);
+        meddyExplorerService.Initialize(rootDir);
     }
 }

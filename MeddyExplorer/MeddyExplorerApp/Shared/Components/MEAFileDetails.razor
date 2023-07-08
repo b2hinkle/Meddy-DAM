@@ -1,5 +1,5 @@
 ﻿@using Services
-@inject MeddyExplorerState meddyExplorerState
+@inject MeddyExplorerService meddyExplorerService
 @implements IDisposable
 @using System.Collections.ObjectModel;
 
@@ -28,7 +28,7 @@
     {
         base.OnInitialized();
 
-        meddyExplorerState.OnSelectedFilesChanged += OnSelectedFilesChanged;
+        meddyExplorerService.OnSelectedFilesChanged += OnSelectedFilesChanged;
     }
 
     protected void OnSelectedFilesChanged()
@@ -38,18 +38,18 @@
 
     public void Dispose()
     {
-        meddyExplorerState.OnSelectedFilesChanged -= OnSelectedFilesChanged;
+        meddyExplorerService.OnSelectedFilesChanged -= OnSelectedFilesChanged;
     }
 
     protected ReadOnlyCollection<FileSystemInfo> GetFileSystemInfos()
     {
-        if (meddyExplorerState.GetSelectedFiles().Any())
+        if (meddyExplorerService.GetSelectedFiles().Any())
         {
-            return meddyExplorerState.GetSelectedFiles();
+            return meddyExplorerService.GetSelectedFiles();
         }
 
         List<FileSystemInfo> CurrentDirAsList = new();
-        CurrentDirAsList.Add(meddyExplorerState.CurrentDir);
+        CurrentDirAsList.Add(meddyExplorerService.CurrentDir);
         return new ReadOnlyCollection<FileSystemInfo>(CurrentDirAsList);
     }
 }

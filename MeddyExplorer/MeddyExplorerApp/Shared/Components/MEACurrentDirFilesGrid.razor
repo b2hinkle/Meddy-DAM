@@ -1,9 +1,9 @@
 ﻿@using MeddyExplorerApp.Services;
-@inject MeddyExplorerState meddyExplorerState
+@inject MeddyExplorerService meddyExplorerService
 @implements IDisposable
 
 <MudGrid Justify="@Justify.FlexStart">
-    @foreach (FileSystemInfo file in meddyExplorerState.Files)
+    @foreach (FileSystemInfo file in meddyExplorerService.Files)
     {
         <MudItem>
             <MEAFileSystemItem FileSystemInfo="@file">
@@ -22,7 +22,7 @@
 {
     protected override void OnInitialized()
     {
-        meddyExplorerState.OnCurrentDirChangedDelegate += OnCurrentDirChange;
+        meddyExplorerService.OnCurrentDirChangedDelegate += OnCurrentDirChange;
     }
 
     public void OnCurrentDirChange(DirectoryInfo inOldCurrentDir, DirectoryInfo inNewCurrentDir)
@@ -32,6 +32,6 @@
 
     public void Dispose()
     {
-        meddyExplorerState.OnCurrentDirChangedDelegate -= OnCurrentDirChange;
+        meddyExplorerService.OnCurrentDirChangedDelegate -= OnCurrentDirChange;
     }
 }

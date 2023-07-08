@@ -1,8 +1,8 @@
 ﻿@using MeddyExplorerApp.Services;
-@inject MeddyExplorerState meddyExplorerState
+@inject MeddyExplorerService meddyExplorerService
 @implements IDisposable
 
-<MudTextField @ref="@TextField" T="string" Text="@meddyExplorerState.CurrentDir.FullName" Variant="@Variant.Outlined" Margin="@Margin.Dense" ValueChanged="@OnValueChanged" />
+<MudTextField @ref="@TextField" T="string" Text="@meddyExplorerService.CurrentDir.FullName" Variant="@Variant.Outlined" Margin="@Margin.Dense" ValueChanged="@OnValueChanged" />
 
 @code
 {
@@ -10,7 +10,7 @@
 
     protected override void OnInitialized()
     {
-        meddyExplorerState.OnCurrentDirChangedDelegate += OnCurrentDirChange;
+        meddyExplorerService.OnCurrentDirChangedDelegate += OnCurrentDirChange;
     }
 
     public void OnCurrentDirChange(DirectoryInfo inOldCurrentDir, DirectoryInfo inNewCurrentDir)
@@ -20,14 +20,14 @@
 
     public void Dispose()
     {
-        meddyExplorerState.OnCurrentDirChangedDelegate -= OnCurrentDirChange;
+        meddyExplorerService.OnCurrentDirChangedDelegate -= OnCurrentDirChange;
     }
 
     protected async Task OnValueChanged(string inNewValue)
     {
         if (Directory.Exists(inNewValue))
         {
-            meddyExplorerState.CurrentDir = new DirectoryInfo(inNewValue);
+            meddyExplorerService.CurrentDir = new DirectoryInfo(inNewValue);
             if (TextField is not null)
             {
                 await TextField.Clear();

@@ -1,6 +1,6 @@
 ﻿@using MudBlazor.Utilities
 @using Services
-@inject MeddyExplorerState meddyExplorerState
+@inject MeddyExplorerService meddyExplorerService
 @implements IDisposable
 
 <MudButton Class="@BuildClass()" OnClick="@OnClick" @ondblclick=@OnDblClick @onkeydown=@OnKeyDown @onfocus=@OnFocus>
@@ -42,13 +42,13 @@
     {
         base.OnInitialized();
 
-        Selected = meddyExplorerState.GetSelectedFiles().Contains(FileSystemInfo);
+        Selected = meddyExplorerService.GetSelectedFiles().Contains(FileSystemInfo);
 
-        meddyExplorerState.OnFileSelected += OnFileSelected;
-        meddyExplorerState.OnFileDeselected += OnFileDeselected;
+        meddyExplorerService.OnFileSelected += OnFileSelected;
+        meddyExplorerService.OnFileDeselected += OnFileDeselected;
 
-        meddyExplorerState.OnFileTargeted += OnFileTargeted;
-        meddyExplorerState.OnFileUntargeted += OnFileUntargeted;
+        meddyExplorerService.OnFileTargeted += OnFileTargeted;
+        meddyExplorerService.OnFileUntargeted += OnFileUntargeted;
     }
 
     protected void OnFileSelected(FileSystemInfo inFileSystemInfo)
@@ -91,8 +91,8 @@
 
     public void Dispose()
     {
-        meddyExplorerState.OnFileSelected -= OnFileSelected;
-        meddyExplorerState.OnFileDeselected -= OnFileDeselected;
+        meddyExplorerService.OnFileSelected -= OnFileSelected;
+        meddyExplorerService.OnFileDeselected -= OnFileDeselected;
     }
 
     protected void Open()
@@ -106,7 +106,7 @@
         DirectoryInfo directoryToOpen = FileSystemInfo as DirectoryInfo;
         if (directoryToOpen is not null)
         {
-            meddyExplorerState.CurrentDir = directoryToOpen;
+            meddyExplorerService.CurrentDir = directoryToOpen;
         }
     }
 
@@ -114,23 +114,23 @@
     {
         if (e.CtrlKey && e.ShiftKey)
         {
-            meddyExplorerState.AdditiveRangeSelectFile(FileSystemInfo);
+            meddyExplorerService.AdditiveRangeSelectFile(FileSystemInfo);
             return;
         }
 
         if (e.CtrlKey)
         {
-            meddyExplorerState.AdditiveToggleSelectFile(FileSystemInfo);
+            meddyExplorerService.AdditiveToggleSelectFile(FileSystemInfo);
             return;
         }
 
         if (e.ShiftKey)
         {
-            meddyExplorerState.ExclusiveRangeSelectFile(FileSystemInfo);
+            meddyExplorerService.ExclusiveRangeSelectFile(FileSystemInfo);
             return;
         }
 
-        meddyExplorerState.ExclusiveSelectFile(FileSystemInfo);
+        meddyExplorerService.ExclusiveSelectFile(FileSystemInfo);
     }
 
     protected void OnDblClick(MouseEventArgs e)
@@ -144,11 +144,11 @@
         {
             if (e.CtrlKey)
             {
-                meddyExplorerState.AdditiveToggleSelectFile(FileSystemInfo);
+                meddyExplorerService.AdditiveToggleSelectFile(FileSystemInfo);
                 return;
             }
 
-            meddyExplorerState.AdditiveSelectFile(FileSystemInfo);
+            meddyExplorerService.AdditiveSelectFile(FileSystemInfo);
             return;
         }
 
@@ -167,6 +167,6 @@
         // Either use a javascript library that makes javascript input nice to use or wait
         // until MAUI gets an input solution.
 
-        meddyExplorerState.TargetFile(FileSystemInfo);
+        meddyExplorerService.TargetFile(FileSystemInfo);
     }
 }
