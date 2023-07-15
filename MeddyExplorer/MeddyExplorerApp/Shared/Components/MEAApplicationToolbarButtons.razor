@@ -1,0 +1,40 @@
+﻿@using MeddyExplorerApp.Services;
+@inject MeddyExplorerService meddyExplorerService
+
+<MudToolBar Class="pointer-events-none" Style="position:fixed; top:0; right:0; left:0; z-index:99999;" Dense="true">
+    <MudSpacer />
+    <!-- End buttons -->
+    <div class="pointer-events-auto"> @* clickable elements *@
+        <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Filled.Minimize" OnClick="@OnMinimizeButtonClick" />
+        @if (!isMaximized)
+        {
+            <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Filled.Maximize" OnClick="@OnMaximizeButtonClick" />
+        }
+        else
+        {
+            <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Filled.Restore" OnClick="@OnRestoreDownButtonClick" />
+        }
+        <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Filled.Close" OnClick="@OnCloseButtonClick" Edge="@Edge.End" /> <!-- use Edge.End to align the icon (instead of the outer button) to the end edge -->
+    </div>
+</MudToolBar>
+
+@code
+{
+    public bool isMaximized { get; set; }
+    private void OnCloseButtonClick()
+    {
+        
+    }
+    private void OnMaximizeButtonClick()
+    {
+        
+    }
+    private void OnRestoreDownButtonClick()
+    {
+        
+    }
+    private void OnMinimizeButtonClick()
+    {
+        
+    }
+}

@@ -1,0 +1,39 @@
+﻿@using MeddyExplorerApp.Services;
+@inject MeddyExplorerService meddyExplorerService
+
+<MudToolBar DisableGutters="true" Dense="true" Elevation="0">
+    <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Filled.KeyboardArrowLeft" OnClick="@OnBackButtonClick" />
+    <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Filled.KeyboardArrowRight" OnClick="@OnForwardButtonClick" />
+    <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Filled.ArrowUpward" OnClick="@OnUpButtonClick" />
+    <MudText>@meddyExplorerService?.CurrentDir?.Name</MudText>
+    <MudSpacer />
+</MudToolBar>
+
+<MEACurrentDirTextField />
+<MEACurrentDirFilesGrid />
+
+@code
+{
+
+    protected override void OnInitialized()
+    {
+        meddyExplorerService.OnCurrentDirChangedDelegate += OnCurrentDirChange;
+    }
+    public void OnCurrentDirChange(DirectoryInfo inOldCurrentDir, DirectoryInfo inNewCurrentDir)
+    {
+        StateHasChanged();
+    }
+
+    private void OnUpButtonClick()
+    {
+        meddyExplorerService.CurrentDir = meddyExplorerService.CurrentDir.Parent;
+    }
+    private void OnBackButtonClick()
+    {
+
+    }
+    private void OnForwardButtonClick()
+    {
+
+    }
+}

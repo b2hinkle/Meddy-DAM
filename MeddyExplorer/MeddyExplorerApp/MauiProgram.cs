@@ -1,5 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
 using MudBlazor.Services;
+using MudBlazorExtensionLibrary.Services;
+using CommunityToolkit.Maui.Core;
+using CommunityToolkit.Maui.Storage;
+using MeddyExplorerApp.Services;
 
 namespace MeddyExplorerApp;
 
@@ -10,13 +14,17 @@ public static class MauiProgram
 		var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
-			.ConfigureFonts(fonts =>
+            .UseMauiApp<App>().UseMauiCommunityToolkitCore()
+            .ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 			});
 
-		builder.Services.AddMauiBlazorWebView();
+        builder.Services.AddSingleton<IFolderPicker>(FolderPicker.Default);
+        builder.Services.AddMauiBlazorWebView();
         builder.Services.AddMudServices();
+		builder.Services.AddScoped<MBELLayoutService>();
+		builder.Services.AddScoped<MeddyExplorerService>();
 
 #if DEBUG
         builder.Services.AddBlazorWebViewDeveloperTools();

@@ -1,0 +1,27 @@
+/**
+ * Style of file system items on focus-visible.
+ */
+.mae-file-system-item:focus-visible {
+    transition-duration: 0ms; /* give responsive focus feedback */
+}
+
+/**
+ * Style of file system items on hover.
+ */
+.mae-file-system-item:hover {
+    transition-duration: 0ms; /* give responsive hover feedback */
+}
+
+/**
+ * Style of selected file system items.
+ */
+.mae-file-system-item-selected {
+    background-color: var(--mud-palette-action-default-hover) !important;
+}
+
+/**
+ * Style of the active file system item.
+ */
+.mae-file-system-item-targeted {
+    outline: thin solid var(--mud-palette-action-default-hover) !important;
+}

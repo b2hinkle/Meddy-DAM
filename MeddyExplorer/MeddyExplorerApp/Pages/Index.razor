@@ -1,3 +1,94 @@
 ﻿@page "/"
+@layout BlankLayout
+@using CommunityToolkit.Maui.Storage
+@inject IFolderPicker folderPicker
+@inject NavigationManager navigationManager
 
-<h1>Hello, world!</h1>
+<MudButton OnClick="@OnCreateNewMeddyProjectClick" Color="Color.Primary" Variant="@Variant.Filled">
+    <MudText Typo="@Typo.body1">
+        Create New Meddy Project
+    </MudText>
+</MudButton>
+
+<MudTable Items="@Items" FixedHeader="true" Dense="true" Hover="true" Breakpoint="Breakpoint.Sm" OnRowClick="@ItemRowClickEvent" T="string" LoadingProgressColor="Color.Info">
+    <HeaderContent>
+        <MudTh>Project</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Project">@context</MudTd>
+    </RowTemplate>
+</MudTable>
+
+@code
+{
+    private List<string> Items = new List<string>();
+
+    protected override void OnInitialized()
+    {
+        Items = App.persistentData.RecentMeddyProjects;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await CheckAndRequestStorageReadPermission();
+    }
+
+    public static async Task<PermissionStatus> CheckAndRequestStorageReadPermission()
+    {
+        PermissionStatus status = await Permissions.CheckStatusAsync<Permissions.StorageRead>();
+
+        if (status == PermissionStatus.Granted)
+        {
+            return status;
+        }
+
+        if (status == PermissionStatus.Denied && DeviceInfo.Platform == DevicePlatform.iOS)
+        {
+            // Prompt the user to turn on in settings
+            // On iOS once a permission has been denied it may not be requested again from the application
+            return status;
+        }
+
+        if (Permissions.ShouldShowRationale<Permissions.StorageRead>())
+        {
+            // Prompt the user with additional information as to why the permission is needed
+        }
+
+        status = await Permissions.RequestAsync<Permissions.StorageRead>();
+
+        return status;
+    }
+
+    protected async Task OnCreateNewMeddyProjectClick()
+    {
+        FolderPickerResult pickedFolder = await folderPicker.PickAsync(".", CancellationToken.None);
+        if (pickedFolder.IsSuccessful)
+        {
+            string newProjectFolderPath = pickedFolder.Folder.Path;
+            if (App.persistentData.RecentMeddyProjects.Contains(newProjectFolderPath) == false)
+            {
+                OpenMeddyProject(newProjectFolderPath);
+            }
+            else
+            {
+                AlertProjectDirectoryAlreadyExists();
+            }
+        }
+    }
+
+    private void OpenMeddyProject(string inMeddyProjectFolderPath)
+    {
+        navigationManager.NavigateTo($"/meddy-explorer/{inMeddyProjectFolderPath}");
+
+    }
+
+    private void AlertProjectDirectoryAlreadyExists()
+    {
+        // message saying there is already a project in this directory
+    }
+
+    private void ItemRowClickEvent(TableRowClickEventArgs<string> tableRowClickEventArgs)
+    {
+        OpenMeddyProject(tableRowClickEventArgs.Item);
+    }
+}

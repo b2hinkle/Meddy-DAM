@@ -1,0 +1,172 @@
+﻿@using MudBlazor.Utilities
+@using Services
+@inject MeddyExplorerService meddyExplorerService
+@implements IDisposable
+
+<MudButton Class="@BuildClass()" OnClick="@OnClick" @ondblclick=@OnDblClick @onkeydown=@OnKeyDown @onfocus=@OnFocus>
+    @ChildContent
+</MudButton>
+
+@code
+{
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public string Class { get; set; }
+
+    protected string BuildClass()
+    {
+        return new CssBuilder()
+            .AddClass(Class)
+            .AddClass("mae-file-system-item")
+            .AddClass("mae-file-system-item-selected", Selected) // add selected class when selected
+            .AddClass("mae-file-system-item-targeted", Targeted) // add targeted class when targeted
+            .Build();
+    }
+
+    [Parameter]
+    public FileSystemInfo FileSystemInfo { get; set; }
+
+    /// <summary>
+    /// Cached value of whether we are selected or not.
+    /// </summary>
+    protected bool Selected { get; set; } = false;
+
+    /// <summary>
+    /// Cached value of whether we are the targeted or not.
+    /// </summary>
+    protected bool Targeted { get; set; } = false;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        Selected = meddyExplorerService.GetSelectedFiles().Contains(FileSystemInfo);
+
+        meddyExplorerService.OnFileSelected += OnFileSelected;
+        meddyExplorerService.OnFileDeselected += OnFileDeselected;
+
+        meddyExplorerService.OnFileTargeted += OnFileTargeted;
+        meddyExplorerService.OnFileUntargeted += OnFileUntargeted;
+    }
+
+    protected void OnFileSelected(FileSystemInfo inFileSystemInfo)
+    {
+        if (inFileSystemInfo == FileSystemInfo)
+        {
+            // We have been selected, update ourselves
+            Selected = true;
+            StateHasChanged();
+        }
+    }
+    protected void OnFileDeselected(FileSystemInfo inFileSystemInfo)
+    {
+        if (inFileSystemInfo == FileSystemInfo)
+        {
+            // We have been deselected, update ourselves
+            Selected = false;
+            StateHasChanged();
+        }
+    }
+
+    protected void OnFileTargeted(FileSystemInfo inFileSystemInfo)
+    {
+        if (inFileSystemInfo == FileSystemInfo)
+        {
+            // We have been targeted, update ourselves
+            Targeted = true;
+            StateHasChanged();
+        }
+    }
+    protected void OnFileUntargeted(FileSystemInfo inFileSystemInfo)
+    {
+        if (inFileSystemInfo == FileSystemInfo)
+        {
+            // We have been untargeted, update ourselves
+            Targeted = false;
+            StateHasChanged();
+        }
+    }
+
+    public void Dispose()
+    {
+        meddyExplorerService.OnFileSelected -= OnFileSelected;
+        meddyExplorerService.OnFileDeselected -= OnFileDeselected;
+    }
+
+    protected void Open()
+    {
+        FileInfo fileToOpen = FileSystemInfo as FileInfo;
+        if (fileToOpen is not null)
+        {
+            // Process.Start()
+        }
+
+        DirectoryInfo directoryToOpen = FileSystemInfo as DirectoryInfo;
+        if (directoryToOpen is not null)
+        {
+            meddyExplorerService.CurrentDir = directoryToOpen;
+        }
+    }
+
+    protected void OnClick(MouseEventArgs e)
+    {
+        if (e.CtrlKey && e.ShiftKey)
+        {
+            meddyExplorerService.AdditiveRangeSelectFile(FileSystemInfo);
+            return;
+        }
+
+        if (e.CtrlKey)
+        {
+            meddyExplorerService.AdditiveToggleSelectFile(FileSystemInfo);
+            return;
+        }
+
+        if (e.ShiftKey)
+        {
+            meddyExplorerService.ExclusiveRangeSelectFile(FileSystemInfo);
+            return;
+        }
+
+        meddyExplorerService.ExclusiveSelectFile(FileSystemInfo);
+    }
+
+    protected void OnDblClick(MouseEventArgs e)
+    {
+        Open();
+    }
+
+    protected void OnKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == " ")
+        {
+            if (e.CtrlKey)
+            {
+                meddyExplorerService.AdditiveToggleSelectFile(FileSystemInfo);
+                return;
+            }
+
+            meddyExplorerService.AdditiveSelectFile(FileSystemInfo);
+            return;
+        }
+
+        if (e.Key == "Enter")
+        {
+            Open();
+            return;
+        }
+    }
+
+    protected void OnFocus(FocusEventArgs e)
+    {
+        // TODO: Perform selection logic here instead of in the input specific events.
+        // 
+        // The problem is that we can't get key information from the FocusEventArgs.
+        // Either use a javascript library that makes javascript input nice to use or wait
+        // until MAUI gets an input solution.
+
+        meddyExplorerService.TargetFile(FileSystemInfo);
+    }
+}

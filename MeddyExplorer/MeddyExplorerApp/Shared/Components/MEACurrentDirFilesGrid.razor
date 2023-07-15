@@ -1,0 +1,37 @@
+﻿@using MeddyExplorerApp.Services;
+@inject MeddyExplorerService meddyExplorerService
+@implements IDisposable
+
+<MudGrid Justify="@Justify.FlexStart">
+    @foreach (FileSystemInfo file in meddyExplorerService.Files)
+    {
+        <MudItem>
+            <MEAFileSystemItem FileSystemInfo="@file">
+                <div class="d-flex flex-column align-center" style="width: 100px; max-height: 100px;">
+                    <MudIcon Icon="@MELFileSystemFunctionLibrary.GetFileSystemInfoIcon(file)" Size="@Size.Large" />
+                    <MudText Style="overflow-wrap: anywhere; overflow: hidden;" Typo="@Typo.body1" Align="@Align.Center">
+                        @MELFileSystemFunctionLibrary.GetFileSystemInfoNameString(file)
+                    </MudText>
+                </div>
+            </MEAFileSystemItem>
+        </MudItem>
+    }
+</MudGrid>
+
+@code
+{
+    protected override void OnInitialized()
+    {
+        meddyExplorerService.OnCurrentDirChangedDelegate += OnCurrentDirChange;
+    }
+
+    public void OnCurrentDirChange(DirectoryInfo inOldCurrentDir, DirectoryInfo inNewCurrentDir)
+    {
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        meddyExplorerService.OnCurrentDirChangedDelegate -= OnCurrentDirChange;
+    }
+}

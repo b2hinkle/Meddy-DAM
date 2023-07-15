@@ -1,0 +1,55 @@
+﻿@using Services
+@inject MeddyExplorerService meddyExplorerService
+@implements IDisposable
+@using System.Collections.ObjectModel;
+
+<div class="mud-width-full mud-height-full pa-3">
+    <div class="mud-width-full d-flex align-center justify-center" style="aspect-ratio: 1;">
+        <MudIcon Icon="@MELFileSystemFunctionLibrary.GetFileSystemInfoIcon(GetFileSystemInfos())" Size="@Size.Large" />
+    </div>
+    <MudTextField T="string" Text="@MELFileSystemFunctionLibrary.GetFileSystemInfoNameString(GetFileSystemInfos())" Margin="@Margin.Dense" Variant="@Variant.Outlined" />
+    <MudText Typo="@Typo.h5">
+        Details
+    </MudText>
+    <MudText Typo="@Typo.body1">
+        Date: @MELFileSystemFunctionLibrary.GetFileSystemInfoDateString(GetFileSystemInfos())
+    </MudText>
+    <MudText Typo="@Typo.body1">
+        Type: @MELFileSystemFunctionLibrary.GetFileSystemInfoTypeString(GetFileSystemInfos())
+    </MudText>
+    <MudText Typo="@Typo.body1">
+        Size: @MELFileSystemFunctionLibrary.GetFileSystemInfoSizeString(GetFileSystemInfos())
+    </MudText>
+</div>
+
+@code
+{
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        meddyExplorerService.OnSelectedFilesChanged += OnSelectedFilesChanged;
+    }
+
+    protected void OnSelectedFilesChanged()
+    {
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        meddyExplorerService.OnSelectedFilesChanged -= OnSelectedFilesChanged;
+    }
+
+    protected ReadOnlyCollection<FileSystemInfo> GetFileSystemInfos()
+    {
+        if (meddyExplorerService.GetSelectedFiles().Any())
+        {
+            return meddyExplorerService.GetSelectedFiles();
+        }
+
+        List<FileSystemInfo> CurrentDirAsList = new();
+        CurrentDirAsList.Add(meddyExplorerService.CurrentDir);
+        return new ReadOnlyCollection<FileSystemInfo>(CurrentDirAsList);
+    }
+}
