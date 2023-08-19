@@ -4,7 +4,7 @@ VisualStudioVersion = 17.0.31611.283
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeddyExplorerApp", "MeddyExplorerApp\MeddyExplorerApp.csproj", "{4FBACD0C-BAB2-4929-B297-59C3804C0AB0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeddyLibrary.Meddydata", "..\Meddy-Library\MeddyLibrary\MeddyLibrary.Meddydata\MeddyLibrary.Meddydata.csproj", "{3F5D34AA-BBF9-4625-9EC4-D744D9F49097}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeddySDK.Meddydata", "..\Meddy-SDK\MeddySDK\MeddySDK.Meddydata\MeddySDK.Meddydata.csproj", "{3F5D34AA-BBF9-4625-9EC4-D744D9F49097}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MudBlazorExtensionLibrary", "..\MudBlazorExtension\MudBlazorExtension\MudBlazorExtensionLibrary\MudBlazorExtensionLibrary.csproj", "{ABCDC288-2ADF-44CB-8207-31DC82B27B3D}"
 EndProject

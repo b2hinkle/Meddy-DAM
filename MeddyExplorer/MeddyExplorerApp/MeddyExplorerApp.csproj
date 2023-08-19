@@ -65,7 +65,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Meddy-Library\MeddyLibrary\MeddyLibrary.Meddydata\MeddyLibrary.Meddydata.csproj" />
+      <ProjectReference Include="..\..\Meddy-SDK\MeddySDK\MeddySDK.Meddydata\MeddySDK.Meddydata.csproj" />
       <ProjectReference Include="..\..\MudBlazorExtension\MudBlazorExtension\MudBlazorExtensionLibrary\MudBlazorExtensionLibrary.csproj" />
       <ProjectReference Include="..\MeddyExplorerLibrary\MeddyExplorerLibrary.csproj" />
     </ItemGroup>

@@ -1,6 +1,6 @@
-[submodule "Meddy-Library"]
-	path = Meddy-Library
-	url = https://github.com/ChristianHinko/Meddy-Library.git
+[submodule "Meddy-SDK"]
+	path = Meddy-SDK
+	url = https://github.com/ChristianHinko/Meddy-SDK.git
 [submodule "MudBlazorExtension"]
 	path = MudBlazorExtension
 	url = https://github.com/ChristianHinko/MudBlazorExtension.git
