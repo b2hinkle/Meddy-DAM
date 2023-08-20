@@ -4,8 +4,6 @@ VisualStudioVersion = 17.0.31611.283
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeddyDAMMAUI", "MeddyDAMMAUI\MeddyDAMMAUI.csproj", "{00177EF1-8A23-4CBA-986A-A697B2F5EDBD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeddyDAMLibrary", "MeddyDAMLibrary\MeddyDAMLibrary.csproj", "{C496D8FE-D1F5-4EEF-87A8-A81356515AC7}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,16 +16,11 @@ Global
 		{00177EF1-8A23-4CBA-986A-A697B2F5EDBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{00177EF1-8A23-4CBA-986A-A697B2F5EDBD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{00177EF1-8A23-4CBA-986A-A697B2F5EDBD}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{C496D8FE-D1F5-4EEF-87A8-A81356515AC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C496D8FE-D1F5-4EEF-87A8-A81356515AC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C496D8FE-D1F5-4EEF-87A8-A81356515AC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C496D8FE-D1F5-4EEF-87A8-A81356515AC7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		        SolutionGuid = {61F7FB11-1E47-470C-91E2-47F8143E1572}
-		SolutionGuid = {83230C4F-F4C8-4E3E-8AB0-0DE2D7E9C148}
 	EndGlobalSection
 EndGlobal
