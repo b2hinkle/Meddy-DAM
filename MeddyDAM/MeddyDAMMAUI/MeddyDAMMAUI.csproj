@@ -1,4 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+        <Exec Command="npm run buildcss" />
+    </Target>
 
     <PropertyGroup>
         <TargetFrameworks>net7.0-android;net7.0-ios;net7.0-maccatalyst</TargetFrameworks>

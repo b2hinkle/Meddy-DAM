@@ -1,0 +1,2 @@
+# Ignore since it's generated from tailwind-source.css
+wwwroot/css/tailwind-output.min.css
