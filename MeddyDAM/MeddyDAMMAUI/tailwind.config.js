@@ -4,7 +4,7 @@ module.exports = {
         './**/*.html',
         './**/*.razor'
     ],
-    darkMode: 'media',
+    darkMode: true,
     variants: {
         extend: {},
     },
